@@ -1,38 +1,46 @@
 # AI & Machine Learning Exercises
 
-This repository contains a collection of exercises, experiments, and mini-projects developed while studying and practicing **Artificial Intelligence (AI)** and **Machine Learning (ML)**.
+This repository contains hands-on exercises, notebooks, and small projects created while studying Artificial Intelligence (AI), Machine Learning (ML), and early MLOps practices.
 
-The goal of this repo is to track my learning progress, strengthen theoretical concepts through implementation, and build a solid practical foundation in data-driven modeling.
+The goal is to turn theory into working code, compare approaches, and build intuition through experiments on real datasets.
 
----
+## Topics Covered
 
-## 📚 Topics Covered
+- Core ML workflow: preprocessing, scaling, feature engineering, train/test splits, and evaluation.
+- Supervised learning: linear regression, logistic regression, SVMs, Naive Bayes, k-nearest neighbors, and SGD-based models.
+- Unsupervised learning: clustering with K-Means.
+- Model evaluation: regression and classification metrics, confusion matrices, ROC curves, and learning curves.
+- Domain exercises: tabular prediction, text classification (spam detection), digit recognition, and basic face recognition.
+- MLOps foundations: serving a training endpoint with FastAPI and validating it with pytest.
 
-This repository includes work on topics such as:
+## Technologies & Tools
 
-- Data preprocessing and feature engineering  
-- Supervised learning (classification & regression)  
-- Unsupervised learning  
-- Model evaluation and performance metrics  
-- Model selection and hyperparameter tuning  
-- Neural networks and deep learning basics  
-- Practical ML workflows using real datasets  
+- Language and environment: Python, Jupyter Notebooks.
+- Core data stack: NumPy, Pandas.
+- Visualization: Matplotlib, Seaborn.
+- Machine learning: scikit-learn, SciPy.
+- Data sources and helpers: ucimlrepo.
+- App and APIs: FastAPI, Pydantic, Uvicorn.
+- Testing: pytest, FastAPI TestClient.
+- Computer vision (notebook experiments): OpenCV (`cv2`).
 
----
+## Repository Structure
 
-## 🛠️ Technologies & Tools
+Below is a high-level map of the repository:
 
-Some of the main tools and libraries used:
-
-- Python  
-- NumPy  
-- Pandas  
-- Scikit-learn  
-- Matplotlib / Seaborn  
-- Jupyter Notebooks  
-
----
-
-## 📂 Repository Structure
-
-The repository is organized by topic or algorithm. Example structure:
+```text
+.
+├─ README.md
+├─ ML_foundamentals/
+│  ├─ Linear Regression/
+│  ├─ Logistic Regression/
+│  └─ Clustering/
+├─ ML_Models&Algorithms/
+│  ├─ SVM/
+│  ├─ NaiveBayes/
+│  ├─ Nearest Neighbors/
+│  ├─ Mini Batch GD and Online Learning/
+│  └─ Neural Networks/
+└─ MLOps&ML_in_prod/
+   └─ Model_Testing/
+```
