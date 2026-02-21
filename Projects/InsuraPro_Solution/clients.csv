@@ -1,0 +1,7 @@
+id,name,surname,birth,fiscal_code,phone,email,address,customer_type
+1,Laura,Smith,15-03-1998,SMTLRA98C55H501X,+44 7700 900123,laura.smith@email.co.uk,23 Oxford Street,individual
+2,TechnoLab,,23-12-1990,GB12345678901,+44 20 7946 1122,info@technolab.co.uk,5 Industrial Road,company
+3,Mark,Johnson,22-07-1995,JHNMRK95L22F205Z,+44 7911 652334,mark.johnson@mail.co.uk,7 Baker Street,individual
+4,GreenSolutions,,13-01-2001,GB98765432109,+44 20 3156 2299,contact@greensolutions.co.uk,12 High Street,company
+5,Charlotte,Williams,09-11-2001,WLLCHR01S49L219P,+44 7481 244668,charlotte.williams@gmail.com,16 King’s Road,individual
+6,NextGenTech,,23-01-2003,GB10293847562,+44 161 712 3345,admin@nextgentech.co.uk,33 Newton Avenue,company

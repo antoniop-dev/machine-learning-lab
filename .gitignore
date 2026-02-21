@@ -34,6 +34,7 @@ ENV/
 *.onnx
 *.joblib
 *.pkl
+*.pickle
 
 # Logs
 logs/
@@ -79,3 +80,12 @@ dist/
 tmp/
 temp/
 *.swp
+
+# =========================
+# 🧩 Project-specific generated artifacts
+# =========================
+Projects/InsuraPro_Solution/insurapro
+Projects/InsuraPro_Solution/docs/
+
+# Large dataset used in Nearest Neighbors exercise
+Exercises/ML_Models&Algorithms/Nearest Neighbors/olivetti_faces/

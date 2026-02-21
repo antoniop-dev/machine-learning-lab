@@ -1,0 +1,11 @@
+type,id,client_id,agent_id,timestamp,field1,field2,field3,field4,field5
+Appointment,1,1,3,1791898846,Life Insurance Consultation,1792931400,London Office,0,1792935000
+Contract,2,2,1,1791902940,POL-2026-000723,Commercial Property,1250.50,1794438000,1825974000
+Appointment,3,5,2,1791906040,Vehicle Policy Renewal,1793017800,Manchester Branch,1,1793021400
+Contract,4,3,4,1791908100,POL-2026-000842,Car Insurance,695.30,1794528000,1826064000
+Appointment,5,6,5,1791911200,Corporate Partnership,1793194200,Virtual Meeting,0,1793197800
+Contract,6,1,2,1791914800,POL-2026-001015,Home Insurance,480.00,1794618000,1826154000
+Appointment,7,4,3,1791917400,Investment Review,1793278800,Birmingham HQ,1,1793282400
+Contract,8,5,1,1791920600,POL-2026-001122,Comprehensive Auto,920.75,1794704400,1826240400
+Appointment,9,2,4,1791924200,Life Insurance Discussion,1793365200,Leeds Office,0,1793368800
+Contract,10,6,5,1791927600,POL-2026-001245,Public Liability,1380.00,1794790800,1826326800

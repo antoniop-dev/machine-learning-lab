@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Angelo",
+        "surname": "Di Santo",
+        "phone_number": "1234566789",
+        "notes": "Collega università"
+    },
+    {
+        "name": "Anna",
+        "surname": "Verdi",
+        "phone_number": "3921234574",
+        "notes": "Sorella di Giulia"
+    },
+    {
+        "name": "Federica",
+        "surname": "Rossi",
+        "phone_number": "3921234575",
+        "notes": "Collega palestra"
+    },
+    {
+        "name": "Francesco",
+        "surname": "Esposito",
+        "phone_number": "3491234567",
+        "notes": "Collega lavoro"
+    },
+    {
+        "name": "Giulia",
+        "surname": "Verdi",
+        "phone_number": "0655123458",
+        "notes": "Casa Roma"
+    },
+    {
+        "name": "Luca",
+        "surname": "Rossi",
+        "phone_number": "3401234567",
+        "notes": "Palestra"
+    },
+    {
+        "name": "Marco",
+        "surname": "Bianchi",
+        "phone_number": "3661234569",
+        "notes": "Calcetto"
+    },
+    {
+        "name": "Marco",
+        "surname": "Rossi",
+        "phone_number": "3331234568",
+        "notes": "Compagno liceo"
+    },
+    {
+        "name": "Marco",
+        "surname": "Verdi",
+        "phone_number": "3921234572",
+        "notes": "Vicino di casa"
+    },
+    {
+        "name": "Maria",
+        "surname": "Bianchi",
+        "phone_number": "3331112233",
+        "notes": "Amica di famiglia"
+    },
+    {
+        "name": "Sara",
+        "surname": "Bianchi",
+        "phone_number": "3511234570",
+        "notes": "Cugina"
+    }
+]

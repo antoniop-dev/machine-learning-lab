@@ -1,8 +1,13 @@
-# AI & Machine Learning Exercises
+# AI & Machine Learning Exercises and Projects
 
-This repository contains hands-on exercises, notebooks, and small projects created while studying Artificial Intelligence (AI), Machine Learning (ML), and early MLOps practices.
+This repository collects hands-on exercises, notebooks, and project solutions built while studying Artificial Intelligence (AI), Machine Learning (ML), and early MLOps practices.
 
-The goal is to turn theory into working code, compare approaches, and build intuition through experiments on real datasets.
+The focus is practical: turn theory into working code, compare approaches, and build intuition through experiments on real datasets and project-style scenarios.
+
+## What You Will Find
+
+- `Exercises/`: focused practice on ML fundamentals, core algorithms, and MLOps basics.
+- `Projects/`: solution folders applying ML workflows to realistic business-style cases.
 
 ## Topics Covered
 
@@ -26,21 +31,25 @@ The goal is to turn theory into working code, compare approaches, and build intu
 
 ## Repository Structure
 
-Below is a high-level map of the repository:
-
 ```text
 .
 ├─ README.md
-├─ ML_foundamentals/
-│  ├─ Linear Regression/
-│  ├─ Logistic Regression/
-│  └─ Clustering/
-├─ ML_Models&Algorithms/
-│  ├─ SVM/
-│  ├─ NaiveBayes/
-│  ├─ Nearest Neighbors/
-│  ├─ Mini Batch GD and Online Learning/
-│  └─ Neural Networks/
-└─ MLOps&ML_in_prod/
-   └─ Model_Testing/
+├─ Exercises/
+│  ├─ ML_foundamentals/
+│  │  ├─ Linear Regression/
+│  │  ├─ Logistic Regression/
+│  │  └─ Clustering/
+│  ├─ ML_Models&Algorithms/
+│  │  ├─ SVM/
+│  │  ├─ NaiveBayes/
+│  │  ├─ Nearest Neighbors/
+│  │  ├─ Mini Batch GD and Online Learning/
+│  │  └─ Neural Networks/
+│  └─ MLOps&ML_in_prod/
+|     └─ Model_Testing/
+└─ Projects/
+   ├─ ContactEase_Solution/
+   ├─ InsuraPro_Solution/
+   ├─ RealEstateAI_Solution/
+   └─ TropicTasteInc_Solution/
 ```
