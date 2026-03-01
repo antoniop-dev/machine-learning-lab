@@ -1,0 +1,24 @@
+{
+  "model": {
+    "model_id": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+    "num_labels": 3,
+    "id2label": {
+      "0": "negative",
+      "1": "neutral",
+      "2": "positive"
+    },
+    "label2id": {
+      "negative": 0,
+      "neutral": 1,
+      "positive": 2
+    },
+    "padding": "max_length",
+    "truncation": true,
+    "max_length": 128,
+    "use_fast_tokenizer": true,
+    "revision": null,
+    "cache_dir": null,
+    "artifacts_dir": "artifacts/model/base",
+    "force": false
+  }
+}

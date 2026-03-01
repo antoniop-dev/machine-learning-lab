@@ -1,0 +1,18 @@
+{
+    "evaluation": {
+        "processed_data_dir": "data/processed/tweet_eval_sentiment",
+        "model_dir": "artifacts/model/finetuned",
+        "output_dir": "artifacts/model/finetuned",
+        "text_field": "text",
+        "label_field": "labels",
+        "max_length": 96,
+        "per_device_eval_batch_size": 32,
+        "seed": 42,
+        "splits": [
+            "validation",
+            "test"
+        ],
+        "max_eval_samples": null,
+        "fp16": false
+    }
+}
