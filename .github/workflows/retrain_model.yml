@@ -17,7 +17,7 @@ on:
       base_model_id:
         description: Base model to fine-tune in mock mode (CPU-friendly).
         required: false
-        default: antoniop-dev/sentiment-model-finetuned
+        default: prajjwal1/bert-tiny
         type: string
       fetch_max_samples:
         description: Max samples per split when fetching data for mock mode.
@@ -68,7 +68,7 @@ on:
         type: string
       base_model_id:
         required: false
-        default: antoniop-dev/sentiment-model-finetuned
+        default: prajjwal1/bert-tiny
         type: string
       fetch_max_samples:
         required: false
@@ -107,7 +107,7 @@ env:
   PYTHON_VERSION: "3.11"
   TRIGGER_REASON: ${{ inputs.trigger_reason || 'Triggered by workflow.' }}
   SOURCE_EVALUATION_RUN_ID: ${{ inputs.source_evaluation_run_id || '' }}
-  BASE_MODEL_ID: ${{ inputs.base_model_id || 'antoniop-dev/sentiment-model-finetuned' }}
+  BASE_MODEL_ID: ${{ inputs.base_model_id || 'prajjwal1/bert-tiny' }}
   FETCH_MAX_SAMPLES: ${{ inputs.fetch_max_samples || '500' }}
   MOCK_MAX_TRAIN_SAMPLES: ${{ inputs.max_train_samples || '128' }}
   MOCK_MAX_EVAL_SAMPLES: ${{ inputs.max_eval_samples || '64' }}
