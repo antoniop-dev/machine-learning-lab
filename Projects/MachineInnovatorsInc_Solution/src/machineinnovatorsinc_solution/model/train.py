@@ -582,7 +582,7 @@ def fine_tune_model(cfg: TrainingConfig) -> Dict[str, Any]:
 
     if cfg.hf_model_repo_id:
         print(f"📤 Pushing fine-tuned model to HuggingFace Hub: {cfg.hf_model_repo_id}", flush=True)
-        trainer.push_to_hub(commit_message="Auto-upload fine-tuned model", private=False)
+        trainer.push_to_hub(commit_message="Auto-upload fine-tuned model")
 
     return {"metadata": metadata, "metrics": metrics}
 
