@@ -86,6 +86,11 @@ temp/
 # =========================
 Projects/InsuraPro_Solution/insurapro
 Projects/InsuraPro_Solution/docs/
+Projects/MachineInnovatorsInc_Solution/data/
+Projects/MachineInnovatorsInc_Solution/artifacts/
+Projects/MachineInnovatorsInc_Solution/reports/
+Projects/MachineInnovatorsInc_Solution/frontend/node_modules/
+Projects/MachineInnovatorsInc_Solution/frontend/dist/
 
 # Large dataset used in Nearest Neighbors exercise
 Exercises/ML_Models&Algorithms/Nearest Neighbors/olivetti_faces/

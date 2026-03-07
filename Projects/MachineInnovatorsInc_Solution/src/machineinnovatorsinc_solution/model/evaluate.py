@@ -35,8 +35,8 @@ LABEL2ID = {v: k for k, v in ID2LABEL.items()}
 NUM_LABELS = 3
 
 REQUIRED_EVALUATION_CONFIG_KEYS = {
-    "processed_data_dir",
-    "model_dir",
+    "dataset_id_or_path",
+    "model_id_or_path",
     "text_field",
     "label_field",
     "max_length",
@@ -54,13 +54,13 @@ class EvaluationConfig(BaseModel):
 
     Attributes
     ----------
-    processed_data_dir : Path
-        Directory containing the HuggingFace ``DatasetDict`` produced by the
+    dataset_id_or_path : str
+        Directory or HuggingFace Hub ID containing the ``DatasetDict`` produced by the
         data-preprocessing pipeline.
-    model_dir : Path
+    model_id_or_path : str
         Directory (or HuggingFace Hub ID) of the fine-tuned model to evaluate.
-    output_dir : Optional[Path]
-        Where to write ``eval_metrics.json``.  Defaults to *model_dir*.
+    output_dir : Path
+        Where to write ``eval_metrics.json``.  Defaults to ``reports/``.
     text_field : str
         Column name for raw text in the dataset.
     label_field : str
@@ -81,9 +81,9 @@ class EvaluationConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    processed_data_dir: Path = Path("data/processed/tweet_eval_sentiment")
-    model_dir: Path = Path("artifacts/model/finetuned")
-    output_dir: Optional[Path] = None
+    dataset_id_or_path: str = "antoniop-dev/tweet-eval-sentiment-processed"
+    model_id_or_path: str = "antoniop-dev/sentiment-model-finetuned"
+    output_dir: Path = Path("reports")
 
     text_field: str = "text"
     label_field: str = "labels"
@@ -145,9 +145,9 @@ def load_evaluation_config(
     merged = {**cfg, **{k: v for k, v in cli_overrides.items() if v is not None}}
 
     defaults: Dict[str, Any] = {
-        "processed_data_dir": "data/processed/tweet_eval_sentiment",
-        "model_dir": "artifacts/model/finetuned",
-        "output_dir": None,
+        "dataset_id_or_path": "antoniop-dev/tweet-eval-sentiment-processed",
+        "model_id_or_path": "antoniop-dev/sentiment-model-finetuned",
+        "output_dir": "reports",
         "text_field": "text",
         "label_field": "labels",
         "max_length": 128,
@@ -288,12 +288,11 @@ def run_evaluation(cfg: EvaluationConfig) -> Dict[str, Any]:
 
     Steps:
 
-    1. Load the processed ``DatasetDict`` from ``cfg.processed_data_dir``.
-    2. Load the tokenizer and model from ``cfg.model_dir``.
+    1. Load the processed ``DatasetDict`` from ``cfg.dataset_id_or_path``.
+    2. Load the tokenizer and model from ``cfg.model_id_or_path``.
     3. Tokenize each requested split.
     4. Run inference and compute accuracy + macro-F1 for every split.
-    5. Persist an ``eval_metrics.json`` to ``cfg.output_dir`` (defaults to
-       ``cfg.model_dir``).
+    5. Persist an ``eval_metrics.json`` to ``cfg.output_dir``.
 
     Parameters
     ----------
@@ -315,10 +314,10 @@ def run_evaluation(cfg: EvaluationConfig) -> Dict[str, Any]:
     RuntimeError
         If required dependencies are not installed.
     FileNotFoundError
-        If ``cfg.processed_data_dir`` or ``cfg.model_dir`` does not exist.
+        If ``cfg.dataset_id_or_path`` or a local model path does not exist.
     """
     _require_inference_dependencies()
-    from datasets import load_from_disk
+    from datasets import load_from_disk, load_dataset
     from transformers import (
         AutoModelForSequenceClassification,
         AutoTokenizer,
@@ -328,17 +327,19 @@ def run_evaluation(cfg: EvaluationConfig) -> Dict[str, Any]:
     )
 
     # --- Load dataset --------------------------------------------------------
-    if not cfg.processed_data_dir.exists():
-        raise FileNotFoundError(
-            f"Processed dataset directory not found: {cfg.processed_data_dir}. "
-            "Run the data pipeline first."
-        )
-    print(f"📦 Loading processed dataset from {cfg.processed_data_dir.as_posix()}", flush=True)
+    data_source_path = Path(cfg.dataset_id_or_path)
+    data_local_only = data_source_path.exists()
+    data_source_mode = "local" if data_local_only else "remote"
+
+    print(f"📦 Loading processed dataset from '{cfg.dataset_id_or_path}' ({data_source_mode})", flush=True)
     try:
-        dataset_dict = load_from_disk(str(cfg.processed_data_dir))
+        if data_local_only:
+            dataset_dict = load_from_disk(str(cfg.dataset_id_or_path))
+        else:
+            dataset_dict = load_dataset(cfg.dataset_id_or_path)
     except Exception as exc:
         raise ValueError(
-            f"Unable to load dataset from {cfg.processed_data_dir}."
+            f"Unable to load dataset from {cfg.dataset_id_or_path}."
         ) from exc
 
     validate_splits(dataset_dict, required_splits=cfg.splits)
@@ -352,17 +353,17 @@ def run_evaluation(cfg: EvaluationConfig) -> Dict[str, Any]:
         )
 
     # --- Load model & tokenizer ----------------------------------------------
-    model_dir = cfg.model_dir
-    if not model_dir.exists():
-        raise FileNotFoundError(
-            f"Model directory not found: {model_dir}. "
-            "Run the fine-tuning pipeline first or point --model-dir at a saved model."
-        )
+    model_source_path = Path(cfg.model_id_or_path)
+    model_source = str(model_source_path) if model_source_path.exists() else cfg.model_id_or_path
+    local_only = model_source_path.exists()
+    source_mode = "local" if local_only else "remote"
 
-    print(f"🔤 Loading tokenizer/model from {model_dir.as_posix()}", flush=True)
-    tokenizer = AutoTokenizer.from_pretrained(str(model_dir), use_fast=True, local_files_only=True)
+    print(f"🔤 Loading tokenizer/model from '{model_source}' ({source_mode})", flush=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_source, use_fast=True, local_files_only=local_only
+    )
     model = AutoModelForSequenceClassification.from_pretrained(
-        str(model_dir), local_files_only=True
+        model_source, local_files_only=local_only
     )
 
     # --- Tokenize splits -----------------------------------------------------
@@ -402,7 +403,7 @@ def run_evaluation(cfg: EvaluationConfig) -> Dict[str, Any]:
         tokenized_splits[split_name] = tokenized
 
     # --- Run evaluation via a minimal Trainer --------------------------------
-    output_dir = cfg.output_dir if cfg.output_dir is not None else cfg.model_dir
+    output_dir = cfg.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
 
     eval_args = TrainingArguments(
@@ -433,8 +434,8 @@ def run_evaluation(cfg: EvaluationConfig) -> Dict[str, Any]:
     # --- Persist results -----------------------------------------------------
     eval_result: Dict[str, Any] = {
         "created_utc": now_iso(),
-        "model_dir": str(cfg.model_dir.as_posix()),
-        "processed_data_dir": str(cfg.processed_data_dir.as_posix()),
+        "model_id_or_path": cfg.model_id_or_path,
+        "dataset_id_or_path": cfg.dataset_id_or_path,
         "splits_evaluated": cfg.splits,
         "metrics": all_metrics,
     }
@@ -470,22 +471,22 @@ def build_argparser() -> argparse.ArgumentParser:
              "Supports optional top-level 'evaluation' key.",
     )
     p.add_argument(
-        "--model-dir",
+        "--model-id-or-path",
         type=str,
         default=None,
-        help="Path to the saved fine-tuned model directory.",
+        help="Model ID or local path to evaluate.",
     )
     p.add_argument(
-        "--processed-data-dir",
+        "--dataset-id-or-path",
         type=str,
         default=None,
-        help="Path to the processed HuggingFace DatasetDict directory.",
+        help="HF Dataset ID or local path to processed DatasetDict.",
     )
     p.add_argument(
         "--output-dir",
         type=str,
         default=None,
-        help="Where to write eval_metrics.json (defaults to --model-dir).",
+        help="Where to write eval_metrics.json (defaults to reports/).",
     )
     p.add_argument(
         "--splits",
@@ -520,8 +521,8 @@ def main() -> None:
     """
     args = build_argparser().parse_args()
     overrides = {
-        "model_dir": args.model_dir,
-        "processed_data_dir": args.processed_data_dir,
+        "model_id_or_path": args.model_id_or_path,
+        "dataset_id_or_path": args.dataset_id_or_path,
         "output_dir": args.output_dir,
         "splits": args.splits,
         "max_length": args.max_length,
@@ -533,8 +534,8 @@ def main() -> None:
 
     cfg = load_evaluation_config(args.config, cli_overrides=overrides)
     print(
-        f"🚀 Starting evaluation: model='{cfg.model_dir.as_posix()}', "
-        f"data='{cfg.processed_data_dir.as_posix()}', splits={cfg.splits}",
+        f"🚀 Starting evaluation: model='{cfg.model_id_or_path}', "
+        f"data='{cfg.dataset_id_or_path}', splits={cfg.splits}",
         flush=True,
     )
     result = run_evaluation(cfg)

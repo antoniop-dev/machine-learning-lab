@@ -19,7 +19,7 @@ LABEL2ID = {v: k for k, v in ID2LABEL.items()}
 NUM_LABELS = 3
 
 REQUIRED_TRAINING_CONFIG_KEYS = {
-    "processed_data_dir",
+    "dataset_id_or_path",
     "model_id_or_path",
     "output_dir",
     "text_field",
@@ -49,7 +49,7 @@ class TrainingConfig(BaseModel):
 
     Attributes
     ----------
-    processed_data_dir : Path
+    dataset_id_or_path : Path
         Directory that contains the HuggingFace ``DatasetDict`` produced
         by the data-preprocessing pipeline.
     model_id_or_path : str
@@ -105,7 +105,7 @@ class TrainingConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    processed_data_dir: Path = Path("data/processed/tweet_eval_sentiment")
+    dataset_id_or_path: Path = Path("data/processed/tweet_eval_sentiment")
     model_id_or_path: str = "artifacts/model/base"
     output_dir: Path = Path("artifacts/model/finetuned")
 
@@ -237,7 +237,7 @@ def load_training_config(path: Optional[str], *, cli_overrides: Dict[str, Any]) 
     merged = {**cfg, **{k: v for k, v in cli_overrides.items() if v is not None}}
 
     defaults = {
-        "processed_data_dir": "data/processed/tweet_eval_sentiment",
+        "dataset_id_or_path": "data/processed/tweet_eval_sentiment",
         "model_id_or_path": "artifacts/model/base",
         "output_dir": "artifacts/model/finetuned",
         "text_field": "text",
@@ -271,12 +271,12 @@ def load_training_config(path: Optional[str], *, cli_overrides: Dict[str, Any]) 
         raise ValueError(f"Invalid training config at '{loc}': {msg}") from None
 
 
-def _load_dataset_dict(processed_data_dir: Path) -> Any:
+def _load_dataset_dict(dataset_id_or_path: Path) -> Any:
     """Load a HuggingFace ``DatasetDict`` from disk and validate its splits.
 
     Parameters
     ----------
-    processed_data_dir : Path
+    dataset_id_or_path : Path
         Directory previously written by
         ``datasets.DatasetDict.save_to_disk``.
 
@@ -289,24 +289,24 @@ def _load_dataset_dict(processed_data_dir: Path) -> Any:
     Raises
     ------
     FileNotFoundError
-        If *processed_data_dir* does not exist.
+        If *dataset_id_or_path* does not exist.
     ValueError
         If the directory exists but cannot be loaded as a
         ``DatasetDict`` (e.g. legacy split-by-split layout).
     """
     from datasets import load_from_disk
 
-    if not processed_data_dir.exists():
+    if not dataset_id_or_path.exists():
         raise FileNotFoundError(
-            f"Processed dataset directory not found: {processed_data_dir}. "
+            f"Processed dataset directory not found: {dataset_id_or_path}. "
             "Run the data pipeline first."
         )
 
     try:
-        ds = load_from_disk(str(processed_data_dir))
+        ds = load_from_disk(str(dataset_id_or_path))
     except Exception as exc:
         raise ValueError(
-            f"Unable to load dataset from {processed_data_dir}. "
+            f"Unable to load dataset from {dataset_id_or_path}. "
             "This can happen with legacy split-by-split layout. "
             "Re-run `scripts/fetch_data.py` to re-save datasets in HF-native format."
         ) from exc
@@ -404,8 +404,8 @@ def fine_tune_model(cfg: TrainingConfig) -> Dict[str, Any]:
         TrainingArguments,
     )
 
-    print(f"📦 Loading processed dataset from {cfg.processed_data_dir.as_posix()}", flush=True)
-    dataset_dict = _load_dataset_dict(cfg.processed_data_dir)
+    print(f"📦 Loading processed dataset from {cfg.dataset_id_or_path.as_posix()}", flush=True)
+    dataset_dict = _load_dataset_dict(cfg.dataset_id_or_path)
 
     for split_name in ("train", "validation", "test"):
         validate_schema(
@@ -561,7 +561,7 @@ def fine_tune_model(cfg: TrainingConfig) -> Dict[str, Any]:
 
     metadata: Dict[str, Any] = {
         "created_utc": now_iso(),
-        "processed_data_dir": str(cfg.processed_data_dir.as_posix()),
+        "dataset_id_or_path": str(cfg.dataset_id_or_path.as_posix()),
         "model_id_or_path": cfg.model_id_or_path,
         "output_dir": str(cfg.output_dir.as_posix()),
         "splits": {
@@ -632,7 +632,7 @@ def main() -> None:
     """
     args = build_argparser().parse_args()
     overrides = {
-        "processed_data_dir": args.processed_data_dir,
+        "dataset_id_or_path": args.dataset_id_or_path,
         "model_id_or_path": args.model_id_or_path,
         "output_dir": args.output_dir,
         "max_length": args.max_length,
@@ -648,7 +648,7 @@ def main() -> None:
 
     cfg = load_training_config(args.config, cli_overrides=overrides)
     print(
-        f"🚀 Starting fine-tuning: model='{cfg.model_id_or_path}', data='{cfg.processed_data_dir.as_posix()}', "
+        f"🚀 Starting fine-tuning: model='{cfg.model_id_or_path}', data='{cfg.dataset_id_or_path.as_posix()}', "
         f"output='{cfg.output_dir.as_posix()}'",
         flush=True,
     )

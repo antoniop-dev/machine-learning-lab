@@ -1,0 +1,8 @@
+{
+    "api": {
+        "model_repo_id": "antoniop-dev/sentiment-model-finetuned",
+        "max_length": 96,
+        "device": "auto",
+        "log_level": "info"
+    }
+}

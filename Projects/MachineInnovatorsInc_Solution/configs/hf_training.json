@@ -1,6 +1,6 @@
 {
     "training": {
-        "processed_data_dir": "data/processed/tweet_eval_sentiment",
+        "dataset_id_or_path": "data/processed/tweet_eval_sentiment",
         "model_id_or_path": "cardiffnlp/twitter-roberta-base-sentiment-latest",
         "output_dir": "artifacts/model/finetuned",
         "text_field": "text",
