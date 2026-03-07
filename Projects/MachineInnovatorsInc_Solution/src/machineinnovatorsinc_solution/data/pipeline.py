@@ -104,7 +104,7 @@ def run_data_pipeline(cfg: DataConfig) -> Dict[str, Any]:
         print(f"📤 Pushing processed dataset to HuggingFace Hub: {cfg.hf_dataset_repo_id}", flush=True)
         processed_ds.push_to_hub(
             cfg.hf_dataset_repo_id,
-            private=True,
+            private=False,
             commit_message=f"Auto-upload processed {dataset_slug(cfg)}",
         )
 
