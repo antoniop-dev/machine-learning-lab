@@ -17,7 +17,7 @@ on:
       base_model_id:
         description: Base model to fine-tune in mock mode (CPU-friendly).
         required: false
-        default: prajjwal1/bert-tiny
+        default: antoniop-dev/sentiment-model-finetuned
         type: string
       fetch_max_samples:
         description: Max samples per split when fetching data for mock mode.
@@ -68,7 +68,7 @@ on:
         type: string
       base_model_id:
         required: false
-        default: prajjwal1/bert-tiny
+        default: antoniop-dev/sentiment-model-finetuned
         type: string
       fetch_max_samples:
         required: false
