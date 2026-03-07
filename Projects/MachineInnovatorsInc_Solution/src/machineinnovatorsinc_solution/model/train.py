@@ -523,7 +523,6 @@ def fine_tune_model(cfg: TrainingConfig) -> Dict[str, Any]:
         fp16=cfg.fp16,
         report_to=[],
         hub_model_id=cfg.hf_model_repo_id,
-        hub_private=True if cfg.hf_model_repo_id else False,
     )
 
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
@@ -583,7 +582,7 @@ def fine_tune_model(cfg: TrainingConfig) -> Dict[str, Any]:
 
     if cfg.hf_model_repo_id:
         print(f"📤 Pushing fine-tuned model to HuggingFace Hub: {cfg.hf_model_repo_id}", flush=True)
-        trainer.push_to_hub(commit_message="Auto-upload fine-tuned model")
+        trainer.push_to_hub(commit_message="Auto-upload fine-tuned model", private=False)
 
     return {"metadata": metadata, "metrics": metrics}
 
