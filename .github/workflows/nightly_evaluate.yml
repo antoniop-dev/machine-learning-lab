@@ -1,4 +1,4 @@
-name: Nightly Evaluation
+name: (MachineInnovatorsInc_Solution) Nightly Evaluation
 
 on:
   # Nightly schedule (UTC)

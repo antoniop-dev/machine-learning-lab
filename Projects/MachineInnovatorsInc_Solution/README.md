@@ -179,6 +179,64 @@ Run smoke test against a running backend:
 python3 scripts/smoke_test.py
 ```
 
+## GitHub Actions Workflows
+
+The repository includes CI/CD workflows for this project under `.github/workflows/`:
+
+- `(MachineInnovatorsInc_Solution) Test Suite` (`.github/workflows/test_machineinnovatorsinc_solution.yml`)
+- `(MachineInnovatorsInc_Solution) Nightly Evaluation` (`.github/workflows/nightly_evaluate.yml`)
+- `(MachineInnovatorsInc_Solution) Mock Retraining` (`.github/workflows/retrain_model.yml`)
+
+### Test Suite workflow
+
+Purpose:
+- runs project tests on push/PR changes affecting `Projects/MachineInnovatorsInc_Solution/**`
+- also supports manual trigger with `workflow_dispatch`
+
+Behavior:
+- unit test job runs `test_utils`, `test_data`, `test_model`, `test_api`
+- integration job prepares a small processed dataset and runs `test_integration_pipeline.py`
+- uploads JUnit XML reports as build artifacts
+
+### Nightly Evaluation workflow
+
+Purpose:
+- runs scheduled model evaluation each night
+- decides whether mock retraining should be triggered
+
+Behavior:
+- fetches/preprocesses data
+- runs `scripts/evaluate_model.py`
+- runs `scripts/check_retrain_needed.py` against `reports/nightly/eval_metrics.json`
+- uploads `reports/nightly` artifacts (evaluation log + decision JSON)
+- conditionally calls the mock retraining workflow when thresholds are not met
+
+Thresholds:
+- default minimum accuracy: `0.80`
+- default minimum macro F1: `0.78`
+- configurable via repo variables:
+- `NIGHTLY_MIN_ACCURACY`
+- `NIGHTLY_MIN_MACRO_F1`
+- `NIGHTLY_MODEL_ID_OR_PATH`
+- `NIGHTLY_MAX_EVAL_SAMPLES`
+
+### Mock Retraining workflow
+
+Purpose:
+- validate retraining automation in CI with CPU-friendly settings
+- avoid production-level GPU training in GitHub Actions
+
+Behavior:
+- supports manual trigger (`workflow_dispatch`) and reusable trigger (`workflow_call`)
+- runs data fetch (if processed data is missing)
+- runs tiny-sample training and evaluation
+- uploads logs and model metadata artifacts
+
+Important constraints:
+- no push to Hugging Face
+- no deployment
+- intended only for automation validation
+
 ## Config files
 
 - `configs/data.json`: data pipeline settings (`dataset_name`, splits, `data_dir`, preprocessing knobs)

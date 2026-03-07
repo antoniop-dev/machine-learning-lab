@@ -9,6 +9,21 @@ The focus is practical: turn theory into working code, compare approaches, and b
 - `Exercises/`: focused practice on ML fundamentals, core algorithms, and MLOps basics.
 - `Projects/`: solution folders applying ML workflows to realistic business-style cases.
 
+## Highlighted MLOps Project
+
+`Projects/MachineInnovatorsInc_Solution` is an end-to-end sentiment analysis project that includes:
+
+- data retrieval and preprocessing pipeline
+- model retrieval, fine-tuning, and evaluation pipelines
+- FastAPI backend and React frontend
+- Dockerized full-stack setup
+- test suite (unit + integration + smoke)
+- GitHub Actions workflows (nightly evaluation with threshold-based retrain decision & CPU-friendly mock retraining (no push/deploy))
+- project-scoped CI test runs
+
+Project docs:
+- `Projects/MachineInnovatorsInc_Solution/README.md`
+
 ## Topics Covered
 
 - Core ML workflow: preprocessing, scaling, feature engineering, train/test splits, and evaluation.
@@ -24,9 +39,13 @@ The focus is practical: turn theory into working code, compare approaches, and b
 - Core data stack: NumPy, Pandas.
 - Visualization: Matplotlib, Seaborn.
 - Machine learning: scikit-learn, SciPy.
+- NLP/LLM tooling: Hugging Face Transformers, Datasets, PyTorch, Accelerate.
 - Data sources and helpers: ucimlrepo.
 - App and APIs: FastAPI, Pydantic, Uvicorn.
+- Frontend and build: React, Vite.
+- Containerization: Docker, Docker Compose, Nginx.
 - Testing: pytest, FastAPI TestClient.
+- CI/CD automation: GitHub Actions.
 - Computer vision (notebook experiments): OpenCV (`cv2`).
 
 ## Repository Structure
@@ -50,6 +69,7 @@ The focus is practical: turn theory into working code, compare approaches, and b
 └─ Projects/
    ├─ ContactEase_Solution/
    ├─ InsuraPro_Solution/
+   ├─ MachineInnovatorsInc_Solution/
    ├─ RealEstateAI_Solution/
    └─ TropicTasteInc_Solution/
 ```

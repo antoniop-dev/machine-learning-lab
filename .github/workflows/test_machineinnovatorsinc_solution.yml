@@ -1,0 +1,123 @@
+name: (MachineInnovatorsInc_Solution) Test Suite
+
+on:
+  push:
+    paths:
+      - "Projects/MachineInnovatorsInc_Solution/**"
+      - ".github/workflows/test_machineinnovatorsinc_solution.yml"
+  pull_request:
+    paths:
+      - "Projects/MachineInnovatorsInc_Solution/**"
+      - ".github/workflows/test_machineinnovatorsinc_solution.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: machineinnovatorsinc-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_DIR: Projects/MachineInnovatorsInc_Solution
+  PYTHON_VERSION: "3.11"
+  HF_HUB_DISABLE_TELEMETRY: "1"
+
+jobs:
+  unit_tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.PROJECT_DIR }}/requirements.txt
+
+      - name: Install dependencies
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports/ci
+          python scripts/test.py \
+            tests/test_utils.py \
+            tests/test_data.py \
+            tests/test_model.py \
+            tests/test_api.py \
+            -v \
+            --maxfail=1 \
+            --junitxml=reports/ci/unit-tests.xml
+
+      - name: Upload unit test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: machineinnovatorsinc-unit-tests-${{ github.run_id }}
+          path: ${{ env.PROJECT_DIR }}/reports/ci/unit-tests.xml
+          if-no-files-found: warn
+          retention-days: 14
+
+  integration_test:
+    name: Integration test (mock-sized)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: unit_tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.PROJECT_DIR }}/requirements.txt
+
+      - name: Install dependencies
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Prepare sampled processed dataset for integration test
+        # Keep CI CPU-friendly and deterministic enough for automation checks.
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python scripts/fetch_data.py --config configs/data.json --max-samples 128
+
+      - name: Run integration test
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports/ci
+          python scripts/test.py \
+            tests/test_integration_pipeline.py \
+            -v \
+            --maxfail=1 \
+            --junitxml=reports/ci/integration-tests.xml
+
+      - name: Upload integration test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: machineinnovatorsinc-integration-tests-${{ github.run_id }}
+          path: |
+            ${{ env.PROJECT_DIR }}/reports/ci/integration-tests.xml
+          if-no-files-found: warn
+          retention-days: 14
