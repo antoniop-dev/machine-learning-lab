@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from ..utils.common import now_iso
-from ..utils.kaggle_upload import push_directory_to_kaggle
 from .fetch import (
     DataConfig,
     dataset_slug,
@@ -100,11 +99,13 @@ def run_data_pipeline(cfg: DataConfig) -> Dict[str, Any]:
         encoding="utf-8",
     )
 
-    if cfg.kaggle_dataset_slug:
-        push_directory_to_kaggle(
-            processed_dir,
-            cfg.kaggle_dataset_slug,
-            version_notes=f"processed {dataset_slug(cfg)}",
+    # HuggingFace Hub push
+    if cfg.hf_dataset_repo_id:
+        print(f"📤 Pushing processed dataset to HuggingFace Hub: {cfg.hf_dataset_repo_id}", flush=True)
+        processed_ds.push_to_hub(
+            cfg.hf_dataset_repo_id,
+            private=True,
+            commit_message=f"Auto-upload processed {dataset_slug(cfg)}",
         )
 
     return {"raw": raw_meta, "processed": processed_meta}

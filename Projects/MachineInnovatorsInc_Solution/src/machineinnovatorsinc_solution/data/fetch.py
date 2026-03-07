@@ -53,8 +53,8 @@ class DataConfig:
     split_val: str = "validation"
     split_test: str = "test"
 
-    # Kaggle integration: when set, upload processed dataset after pipeline
-    kaggle_dataset_slug: Optional[str] = None
+    # HuggingFace Hub integration: when set, upload processed dataset after pipeline
+    hf_dataset_repo_id: Optional[str] = None
 
 
 def _coerce_positive_int(value: Any, *, field_name: str) -> int:
@@ -108,7 +108,7 @@ def load_config(path: Optional[str], *, cli_overrides: Dict[str, Any]) -> DataCo
         split_train=str(merged.get("split_train", "train")),
         split_val=str(merged.get("split_val", "validation")),
         split_test=str(merged.get("split_test", "test")),
-        kaggle_dataset_slug=merged.get("kaggle_dataset_slug", None) or None,
+        hf_dataset_repo_id=merged.get("hf_dataset_repo_id", None) or None,
     )
 
 
