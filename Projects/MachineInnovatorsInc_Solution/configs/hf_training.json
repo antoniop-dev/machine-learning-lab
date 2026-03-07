@@ -22,6 +22,6 @@
         "max_test_samples": null,
         "metric_for_best_model": "macro_f1",
         "greater_is_better": true,
-        "hf_model_repo_id": "your-username/sentiment-model-finetuned"
+        "hf_model_repo_id": "antoniop-dev/sentiment-model-finetuned"
     }
 }
