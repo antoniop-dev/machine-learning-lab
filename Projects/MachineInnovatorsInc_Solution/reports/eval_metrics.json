@@ -1,0 +1,29 @@
+{
+  "created_utc": "2026-03-07T16:10:54+00:00",
+  "model_id_or_path": "antoniop-dev/sentiment-model-finetuned",
+  "dataset_id_or_path": "antoniop-dev/tweet-eval-sentiment-processed",
+  "splits_evaluated": [
+    "validation",
+    "test"
+  ],
+  "metrics": {
+    "validation": {
+      "validation_loss": 0.6072713136672974,
+      "validation_model_preparation_time": 0.0014,
+      "validation_accuracy": 0.764,
+      "validation_macro_f1": 0.7494532155843178,
+      "validation_runtime": 10.6627,
+      "validation_samples_per_second": 187.57,
+      "validation_steps_per_second": 11.723
+    },
+    "test": {
+      "test_loss": 0.7433029413223267,
+      "test_model_preparation_time": 0.0014,
+      "test_accuracy": 0.7040052100293064,
+      "test_macro_f1": 0.7045455924181546,
+      "test_runtime": 57.2204,
+      "test_samples_per_second": 214.679,
+      "test_steps_per_second": 13.422
+    }
+  }
+}
