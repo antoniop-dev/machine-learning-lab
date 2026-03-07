@@ -1,0 +1,117 @@
+name: Nightly Evaluation
+
+on:
+  # Nightly schedule (UTC)
+  schedule:
+    - cron: "15 2 * * *"
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PROJECT_DIR: Projects/MachineInnovatorsInc_Solution
+  PYTHON_VERSION: "3.11"
+  # Repository variables allow threshold/model tuning without editing this file.
+  MODEL_ID_OR_PATH: ${{ vars.NIGHTLY_MODEL_ID_OR_PATH || 'antoniop-dev/sentiment-model-finetuned' }}
+  MIN_ACCURACY: ${{ vars.NIGHTLY_MIN_ACCURACY || '0.80' }}
+  MIN_MACRO_F1: ${{ vars.NIGHTLY_MIN_MACRO_F1 || '0.78' }}
+  MAX_EVAL_SAMPLES: ${{ vars.NIGHTLY_MAX_EVAL_SAMPLES || '2000' }}
+
+jobs:
+  nightly_evaluate:
+    name: Evaluate current model and decide on retraining
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    outputs:
+      retrain_needed: ${{ steps.gate.outputs.retrain_needed }}
+      observed_accuracy: ${{ steps.gate.outputs.observed_accuracy }}
+      observed_macro_f1: ${{ steps.gate.outputs.observed_macro_f1 }}
+      evaluated_split: ${{ steps.gate.outputs.evaluated_split }}
+      decision_reason: ${{ steps.gate.outputs.decision_reason }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.PROJECT_DIR }}/requirements.txt
+
+      - name: Install project dependencies
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Fetch and preprocess dataset
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python scripts/fetch_data.py --config configs/data.json
+
+      - name: Run evaluation pipeline
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports/nightly
+          python scripts/evaluate_model.py \
+            --dataset-id-or-path data/processed/tweet_eval_sentiment \
+            --model-id-or-path "${MODEL_ID_OR_PATH}" \
+            --output-dir reports/nightly \
+            --max-eval-samples "${MAX_EVAL_SAMPLES}" \
+            --eval-batch-size 16 \
+            2>&1 | tee reports/nightly/evaluation.log
+
+      - name: Check thresholds and emit retrain decision
+        id: gate
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python scripts/check_retrain_needed.py \
+            --metrics-path reports/nightly/eval_metrics.json \
+            --min-accuracy "${MIN_ACCURACY}" \
+            --min-macro-f1 "${MIN_MACRO_F1}" \
+            --prefer-split test \
+            --summary-path reports/nightly/retrain_decision.json
+
+      - name: Append decision to job summary
+        if: always()
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          {
+            echo "### Nightly evaluation decision"
+            echo "- Retrain needed: \`${{ steps.gate.outputs.retrain_needed }}\`"
+            echo "- Evaluated split: \`${{ steps.gate.outputs.evaluated_split }}\`"
+            echo "- Observed accuracy: \`${{ steps.gate.outputs.observed_accuracy }}\`"
+            echo "- Observed macro F1: \`${{ steps.gate.outputs.observed_macro_f1 }}\`"
+            echo "- Reason: \`${{ steps.gate.outputs.decision_reason }}\`"
+            echo "- Thresholds: accuracy >= \`${MIN_ACCURACY}\`, macro F1 >= \`${MIN_MACRO_F1}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload nightly evaluation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-evaluation-${{ github.run_id }}
+          path: ${{ env.PROJECT_DIR }}/reports/nightly
+          if-no-files-found: error
+          retention-days: 14
+
+  maybe_trigger_mock_retraining:
+    name: Trigger mock retraining when thresholds are not met
+    needs: nightly_evaluate
+    if: needs.nightly_evaluate.outputs.retrain_needed == 'true'
+    uses: ./.github/workflows/retrain_model.yml
+    with:
+      trigger_reason: >-
+        Nightly evaluation below thresholds.
+        split=${{ needs.nightly_evaluate.outputs.evaluated_split }},
+        accuracy=${{ needs.nightly_evaluate.outputs.observed_accuracy }},
+        macro_f1=${{ needs.nightly_evaluate.outputs.observed_macro_f1 }}.
+      source_evaluation_run_id: ${{ github.run_id }}

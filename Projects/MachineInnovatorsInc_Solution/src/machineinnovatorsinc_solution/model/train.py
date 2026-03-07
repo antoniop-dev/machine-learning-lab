@@ -50,8 +50,8 @@ class TrainingConfig(BaseModel):
     Attributes
     ----------
     dataset_id_or_path : Path
-        Directory that contains the HuggingFace ``DatasetDict`` produced
-        by the data-preprocessing pipeline.
+        Path to the processed HuggingFace ``DatasetDict`` produced by
+        the data-preprocessing pipeline.
     model_id_or_path : str
         HuggingFace Hub model identifier **or** a local directory path
         to load the base model from.
@@ -277,8 +277,7 @@ def _load_dataset_dict(dataset_id_or_path: Path) -> Any:
     Parameters
     ----------
     dataset_id_or_path : Path
-        Directory previously written by
-        ``datasets.DatasetDict.save_to_disk``.
+        Path previously written by ``datasets.DatasetDict.save_to_disk``.
 
     Returns
     -------
@@ -604,7 +603,13 @@ def build_argparser() -> argparse.ArgumentParser:
         default=None,
         help="Path to JSON config (e.g., configs/training.json). Supports optional top-level 'training' key.",
     )
-    p.add_argument("--processed-data-dir", type=str, default=None, help="Path to processed dataset directory")
+    p.add_argument(
+        "--dataset-id-or-path",
+        dest="dataset_id_or_path",
+        type=str,
+        default=None,
+        help="Path to processed dataset directory (Hugging Face DatasetDict saved to disk).",
+    )
     p.add_argument("--model-id-or-path", type=str, default=None, help="Model id/path used for fine-tuning")
     p.add_argument("--output-dir", type=str, default=None, help="Where to save fine-tuned artifacts")
     p.add_argument("--max-length", type=int, default=None, help="Tokenizer max length")

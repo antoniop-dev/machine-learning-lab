@@ -1,0 +1,241 @@
+name: Mock Retraining
+
+on:
+  # Manual trigger from Actions tab.
+  workflow_dispatch:
+    inputs:
+      trigger_reason:
+        description: Why this mock retraining run is being started.
+        required: false
+        default: Manual trigger from workflow_dispatch.
+        type: string
+      source_evaluation_run_id:
+        description: Optional run ID from the evaluation workflow.
+        required: false
+        default: ""
+        type: string
+      base_model_id:
+        description: Base model to fine-tune in mock mode (CPU-friendly).
+        required: false
+        default: prajjwal1/bert-tiny
+        type: string
+      fetch_max_samples:
+        description: Max samples per split when fetching data for mock mode.
+        required: false
+        default: "500"
+        type: string
+      max_train_samples:
+        description: Max train samples for mock retraining.
+        required: false
+        default: "128"
+        type: string
+      max_eval_samples:
+        description: Max validation samples for mock retraining/evaluation.
+        required: false
+        default: "64"
+        type: string
+      max_test_samples:
+        description: Max test samples for mock retraining.
+        required: false
+        default: "64"
+        type: string
+      num_train_epochs:
+        description: Number of epochs for mock retraining.
+        required: false
+        default: "1"
+        type: string
+      train_batch_size:
+        description: Per-device train batch size for mock retraining.
+        required: false
+        default: "4"
+        type: string
+      eval_batch_size:
+        description: Per-device eval batch size for mock retraining/evaluation.
+        required: false
+        default: "8"
+        type: string
+
+  # Reusable workflow entrypoint (called by nightly_evaluate.yml).
+  workflow_call:
+    inputs:
+      trigger_reason:
+        required: false
+        default: Triggered by another workflow.
+        type: string
+      source_evaluation_run_id:
+        required: false
+        default: ""
+        type: string
+      base_model_id:
+        required: false
+        default: prajjwal1/bert-tiny
+        type: string
+      fetch_max_samples:
+        required: false
+        default: "500"
+        type: string
+      max_train_samples:
+        required: false
+        default: "128"
+        type: string
+      max_eval_samples:
+        required: false
+        default: "64"
+        type: string
+      max_test_samples:
+        required: false
+        default: "64"
+        type: string
+      num_train_epochs:
+        required: false
+        default: "1"
+        type: string
+      train_batch_size:
+        required: false
+        default: "4"
+        type: string
+      eval_batch_size:
+        required: false
+        default: "8"
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  PROJECT_DIR: Projects/MachineInnovatorsInc_Solution
+  PYTHON_VERSION: "3.11"
+  TRIGGER_REASON: ${{ inputs.trigger_reason || 'Triggered by workflow.' }}
+  SOURCE_EVALUATION_RUN_ID: ${{ inputs.source_evaluation_run_id || '' }}
+  BASE_MODEL_ID: ${{ inputs.base_model_id || 'antoniop-dev/sentiment-model-finetuned' }}
+  FETCH_MAX_SAMPLES: ${{ inputs.fetch_max_samples || '500' }}
+  MOCK_MAX_TRAIN_SAMPLES: ${{ inputs.max_train_samples || '128' }}
+  MOCK_MAX_EVAL_SAMPLES: ${{ inputs.max_eval_samples || '64' }}
+  MOCK_MAX_TEST_SAMPLES: ${{ inputs.max_test_samples || '64' }}
+  MOCK_NUM_EPOCHS: ${{ inputs.num_train_epochs || '1' }}
+  MOCK_TRAIN_BATCH_SIZE: ${{ inputs.train_batch_size || '4' }}
+  MOCK_EVAL_BATCH_SIZE: ${{ inputs.eval_batch_size || '8' }}
+
+jobs:
+  mock_retrain:
+    name: CPU-friendly mock retraining (CI validation)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.PROJECT_DIR }}/requirements.txt
+
+      - name: Install project dependencies
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Prepare run directories
+        id: paths
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          run_id="mock-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          mock_output_dir="artifacts/mock_retrained/${run_id}"
+          mock_report_dir="reports/mock_retrain/${run_id}"
+          mkdir -p "${mock_output_dir}" "${mock_report_dir}"
+          echo "mock_output_dir=${mock_output_dir}" >> "$GITHUB_OUTPUT"
+          echo "mock_report_dir=${mock_report_dir}" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch and preprocess data if missing
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          if [ -d "data/processed/tweet_eval_sentiment" ]; then
+            echo "Processed dataset already exists. Skipping fetch."
+          else
+            python scripts/fetch_data.py \
+              --config configs/data.json \
+              --max-samples "${FETCH_MAX_SAMPLES}" \
+              2>&1 | tee "${{ steps.paths.outputs.mock_report_dir }}/fetch_data.log"
+          fi
+
+      - name: Run mock retraining (small sample, CPU-friendly)
+        # This is intentionally not a full training run.
+        # It validates CI/CD automation wiring with constrained settings.
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python scripts/train_model.py \
+            --dataset-id-or-path data/processed/tweet_eval_sentiment \
+            --model-id-or-path "${BASE_MODEL_ID}" \
+            --output-dir "${{ steps.paths.outputs.mock_output_dir }}" \
+            --num-train-epochs "${MOCK_NUM_EPOCHS}" \
+            --train-batch-size "${MOCK_TRAIN_BATCH_SIZE}" \
+            --eval-batch-size "${MOCK_EVAL_BATCH_SIZE}" \
+            --max-train-samples "${MOCK_MAX_TRAIN_SAMPLES}" \
+            --max-eval-samples "${MOCK_MAX_EVAL_SAMPLES}" \
+            --max-test-samples "${MOCK_MAX_TEST_SAMPLES}" \
+            --seed 42 \
+            2>&1 | tee "${{ steps.paths.outputs.mock_report_dir }}/train.log"
+
+      - name: Evaluate mock retrained model
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          python scripts/evaluate_model.py \
+            --dataset-id-or-path data/processed/tweet_eval_sentiment \
+            --model-id-or-path "${{ steps.paths.outputs.mock_output_dir }}" \
+            --output-dir "${{ steps.paths.outputs.mock_report_dir }}" \
+            --max-eval-samples "${MOCK_MAX_EVAL_SAMPLES}" \
+            --eval-batch-size "${MOCK_EVAL_BATCH_SIZE}" \
+            2>&1 | tee "${{ steps.paths.outputs.mock_report_dir }}/eval.log"
+
+      - name: Write mock retraining context
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          context_file="${{ steps.paths.outputs.mock_report_dir }}/mock_retrain_context.txt"
+          {
+            echo "trigger_reason=${TRIGGER_REASON}"
+            echo "source_evaluation_run_id=${SOURCE_EVALUATION_RUN_ID}"
+            echo "base_model_id=${BASE_MODEL_ID}"
+            echo "fetch_max_samples=${FETCH_MAX_SAMPLES}"
+            echo "max_train_samples=${MOCK_MAX_TRAIN_SAMPLES}"
+            echo "max_eval_samples=${MOCK_MAX_EVAL_SAMPLES}"
+            echo "max_test_samples=${MOCK_MAX_TEST_SAMPLES}"
+            echo "num_train_epochs=${MOCK_NUM_EPOCHS}"
+            echo "train_batch_size=${MOCK_TRAIN_BATCH_SIZE}"
+            echo "eval_batch_size=${MOCK_EVAL_BATCH_SIZE}"
+            echo "note=Mock retraining run only. No model push or deployment performed."
+          } > "${context_file}"
+
+      - name: Append summary
+        if: always()
+        run: |
+          {
+            echo "### Mock retraining completed"
+            echo "- Trigger reason: \`${TRIGGER_REASON}\`"
+            echo "- Source nightly run: \`${SOURCE_EVALUATION_RUN_ID}\`"
+            echo "- Base model: \`${BASE_MODEL_ID}\`"
+            echo "- Mock output dir: \`${{ steps.paths.outputs.mock_output_dir }}\`"
+            echo "- Mock report dir: \`${{ steps.paths.outputs.mock_report_dir }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload mock retraining artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-retraining-${{ github.run_id }}
+          path: |
+            ${{ env.PROJECT_DIR }}/${{ steps.paths.outputs.mock_report_dir }}
+            ${{ env.PROJECT_DIR }}/${{ steps.paths.outputs.mock_output_dir }}/metrics.json
+            ${{ env.PROJECT_DIR }}/${{ steps.paths.outputs.mock_output_dir }}/metadata.json
+            ${{ env.PROJECT_DIR }}/${{ steps.paths.outputs.mock_output_dir }}/training_args.json
+          if-no-files-found: warn
+          retention-days: 14
