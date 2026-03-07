@@ -1,16 +1,56 @@
-# React + Vite
+# MachineInnovatorsInc Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite frontend for the sentiment analysis application.
 
-Currently, two official plugins are available:
+## What this app does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- collects user text input
+- calls backend endpoint `POST /api/v1/predict`
+- renders predicted label and class confidence scores
 
-## React Compiler
+## Local development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+From this `frontend/` directory:
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Default dev URL:
+- `http://localhost:5173`
+
+In development, Vite proxies `/api/*` to:
+- `http://localhost:8000`
+
+So make sure the backend is running.
+
+## Build and preview
+
+```bash
+npm run build
+npm run preview
+```
+
+## API base URL
+
+Runtime API base is read from:
+- `VITE_API_BASE_URL`
+
+Default value is:
+- `/api/v1`
+
+## Dockerized frontend
+
+This folder includes:
+- `Dockerfile` (multi-stage: Node build + Nginx serve)
+- `nginx.conf` (SPA routing + `/api/` reverse proxy to `backend:8000`)
+
+The recommended way to run it is from project root via Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+Then open:
+- `http://localhost:8080`

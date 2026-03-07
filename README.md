@@ -65,7 +65,7 @@ Project docs:
 │  │  ├─ Mini Batch GD and Online Learning/
 │  │  └─ Neural Networks/
 │  └─ MLOps&ML_in_prod/
-|     └─ Model_Testing/
+│     └─ Model_Testing/
 └─ Projects/
    ├─ ContactEase_Solution/
    ├─ InsuraPro_Solution/

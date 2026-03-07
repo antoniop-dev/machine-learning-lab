@@ -66,7 +66,13 @@ python3 scripts/retrieve_model.py --config configs/model.json
 4. Fine-tune model
 
 ```bash
-python3 scripts/train_model.py --config configs/training.json
+python3 scripts/train_model.py \
+  --dataset-id-or-path data/processed/tweet_eval_sentiment \
+  --model-id-or-path artifacts/model/base \
+  --output-dir artifacts/model/finetuned \
+  --num-train-epochs 1 \
+  --train-batch-size 2 \
+  --eval-batch-size 2
 ```
 
 5. Evaluate fine-tuned model
@@ -241,7 +247,8 @@ Important constraints:
 
 - `configs/data.json`: data pipeline settings (`dataset_name`, splits, `data_dir`, preprocessing knobs)
 - `configs/model.json`: base model retrieval settings (`model_id`, label mapping, output artifacts path)
-- `configs/training.json`: fine-tuning settings (`processed_data_dir`, hyperparameters, output path)
+- `configs/training.json`: fine-tuning settings for local runs (dataset/model/output paths and hyperparameters)
+- `configs/hf_training.json`: fine-tuning settings for Hugging Face-oriented runs (`hf_model_repo_id` included)
 - `configs/api.json`: API settings (`model_repo_id`, `max_length`, `device`, `log_level`)
 - `configs/hf_data.json`: data pipeline config variant with `hf_dataset_repo_id` for push to Hugging Face Hub
 
