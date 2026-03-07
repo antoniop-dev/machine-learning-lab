@@ -1,8 +1,8 @@
 {
     "training": {
-        "processed_data_dir": "/kaggle/working/data/processed/tweet_eval_sentiment",
+        "processed_data_dir": "data/processed/tweet_eval_sentiment",
         "model_id_or_path": "cardiffnlp/twitter-roberta-base-sentiment-latest",
-        "output_dir": "/kaggle/working/artifacts/model/finetuned",
+        "output_dir": "artifacts/model/finetuned",
         "text_field": "text",
         "label_field": "labels",
         "max_length": 96,
@@ -22,6 +22,6 @@
         "max_test_samples": null,
         "metric_for_best_model": "macro_f1",
         "greater_is_better": true,
-        "kaggle_dataset_slug": "antoniop-dev/sentiment-model-finetuned"
+        "hf_model_repo_id": "your-username/sentiment-model-finetuned"
     }
 }

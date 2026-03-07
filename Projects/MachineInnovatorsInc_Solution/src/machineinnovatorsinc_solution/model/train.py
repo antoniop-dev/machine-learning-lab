@@ -12,7 +12,6 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from ..data.validate import validate_schema, validate_splits
 from ..utils.common import now_iso, read_json_config, select_config_section, validate_required_keys
-from ..utils.kaggle_upload import push_directory_to_kaggle
 from .evaluate import build_compute_metrics, evaluate_model
 
 ID2LABEL = {0: "negative", 1: "neutral", 2: "positive"}
@@ -133,8 +132,8 @@ class TrainingConfig(BaseModel):
     metric_for_best_model: str = "macro_f1"
     greater_is_better: bool = True
 
-    # Kaggle integration: when set, upload fine-tuned model after training
-    kaggle_dataset_slug: Optional[str] = None
+    # HuggingFace Hub integration: when set, upload finetuned model after training
+    hf_model_repo_id: Optional[str] = None
 
 
 def _require_training_dependencies() -> None:
@@ -523,6 +522,8 @@ def fine_tune_model(cfg: TrainingConfig) -> Dict[str, Any]:
         seed=cfg.seed,
         fp16=cfg.fp16,
         report_to=[],
+        hub_model_id=cfg.hf_model_repo_id,
+        hub_private=True if cfg.hf_model_repo_id else False,
     )
 
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
@@ -580,12 +581,9 @@ def fine_tune_model(cfg: TrainingConfig) -> Dict[str, Any]:
     metadata_path = cfg.output_dir / "metadata.json"
     metadata_path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    if cfg.kaggle_dataset_slug:
-        push_directory_to_kaggle(
-            cfg.output_dir,
-            cfg.kaggle_dataset_slug,
-            version_notes=f"fine-tuned model – macro_f1={eval_metrics['validation'].get('validation_macro_f1', 'n/a')}",
-        )
+    if cfg.hf_model_repo_id:
+        print(f"📤 Pushing fine-tuned model to HuggingFace Hub: {cfg.hf_model_repo_id}", flush=True)
+        trainer.push_to_hub(commit_message="Auto-upload fine-tuned model")
 
     return {"metadata": metadata, "metrics": metrics}
 
