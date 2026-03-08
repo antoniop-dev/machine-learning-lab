@@ -14,8 +14,9 @@ The project includes:
 
 - `datasets`, `transformers`, `torch`, `accelerate`
 - `fastapi`, `uvicorn`
-- `react`, `vite`
+- `react`, `vite`, `nginx`
 - `docker`, `docker compose`
+- `prometheus`, `grafana`
 - `pytest`
 
 ## Repository layout
@@ -23,20 +24,21 @@ The project includes:
 ```text
 MachineInnovatorsInc_Solution/
 ├── Dockerfile                    # backend container image
-├── docker-compose.yml            # backend + frontend orchestration
-├── .dockerignore
-├── configs/                      # JSON configs for data/model/train/eval/api
-├── scripts/                      # CLI entrypoints (pipeline, api, test, smoke)
+├── docker-compose.yml            # full stack orchestration (BE, FE, Monitoring)
+├── .dockerignore                 # docker build exclusion rules
+├── configs/                      # JSON configs for data, model, train, eval, and api
+├── scripts/                      # CLI entrypoints for pipelines and services
 ├── src/machineinnovatorsinc_solution/
-│   ├── data/                     # fetch + validate + preprocess pipeline
-│   ├── model/                    # retrieve + train + evaluate pipelines
-│   ├── api/                      # FastAPI app, routes, predictor, schemas
-│   └── utils/
-├── frontend/                     # React + Vite client (+ Dockerfile + nginx.conf)
-├── tests/                        # unit + integration tests
+│   ├── api/                      # FastAPI application and route handlers
+│   ├── data/                     # data retrieval and preprocessing logic
+│   ├── model/                    # model training and evaluation logic
+│   └── utils/                    # shared helper functions
+├── frontend/                     # React + Vite web application (+ Dockerfile, nginx.conf)
+├── monitoring/                   # Prometheus and Grafana configuration files
+├── tests/                        # unit, integration, and smoke tests
 ├── artifacts/                    # generated model artifacts (gitignored)
-├── data/                         # generated datasets (gitignored)
-└── reports/                      # generated evaluation outputs (gitignored)
+├── data/                         # raw and processed datasets (gitignored)
+└── reports/                      # evaluation metrics
 ```
 
 ## Quick start
