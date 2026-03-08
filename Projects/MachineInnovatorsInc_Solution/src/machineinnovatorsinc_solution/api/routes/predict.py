@@ -9,9 +9,11 @@ dedicated module makes it straightforward to add more routers later
 from __future__ import annotations
 
 import logging
+from time import perf_counter
 
 from fastapi import APIRouter, HTTPException, Request, status
 
+from ..monitoring import record_prediction, record_prediction_error
 from ..schemas import HealthResponse, PredictRequest, PredictionResult
 
 logger = logging.getLogger(__name__)
@@ -90,16 +92,28 @@ async def predict(request: Request, body: PredictRequest) -> PredictionResult:
             detail="Model is not loaded yet.",
         )
 
+    start_time = perf_counter()
     logger.debug("Predicting for text (len=%d): %r", len(body.text), body.text[:80])
 
     try:
         result = predictor.predict(body.text)
     except Exception as exc:
+        duration_seconds = perf_counter() - start_time
+        record_prediction_error(duration_seconds)
         logger.exception("Inference failed: %s", exc)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Inference error: {exc}",
         ) from exc
 
-    logger.debug("Prediction → label=%r scores=%s", result.label, result.scores)
+    duration_seconds = perf_counter() - start_time
+    record_prediction(result, len(body.text), duration_seconds)
+
+    logger.info(
+        "prediction_served label=%s label_id=%d text_length=%d duration_ms=%.2f",
+        result.label,
+        result.label_id,
+        len(body.text),
+        duration_seconds * 1000,
+    )
     return result

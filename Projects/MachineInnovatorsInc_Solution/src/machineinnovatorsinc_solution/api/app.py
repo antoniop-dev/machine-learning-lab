@@ -18,6 +18,7 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from fastapi import FastAPI
+from prometheus_client import make_asgi_app
 
 from .config import ApiConfig, load_api_config
 from .predictor import SentimentPredictor
@@ -99,5 +100,6 @@ def create_app(config_path: str | None = "configs/api.json") -> FastAPI:
     )
 
     app.include_router(predict_router, prefix="/api/v1")
+    app.mount("/metrics", make_asgi_app())
 
     return app

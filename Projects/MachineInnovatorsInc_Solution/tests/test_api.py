@@ -97,3 +97,15 @@ def test_predict_endpoint_invalid_schema(client):
     # Empty 'text' string (violates min_length=1)
     response = client.post("/api/v1/predict", json={"text": ""})
     assert response.status_code == 422
+
+
+def test_metrics_endpoint_exposes_prediction_metrics(client):
+    """Test Prometheus metrics are exposed after serving a prediction."""
+    predict_response = client.post("/api/v1/predict", json={"text": "Monitoring test"})
+    assert predict_response.status_code == 200
+
+    response = client.get("/metrics")
+    assert response.status_code == 200
+    assert "prediction_requests_total" in response.text
+    assert 'predicted_label="positive"' in response.text
+    assert "prediction_request_duration_seconds" in response.text

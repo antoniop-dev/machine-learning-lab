@@ -52,10 +52,11 @@ Why:
 
 ## 5. Choice to Add Docker and Docker Compose
 
-I containerized both services:
+I containerized the services:
 - backend Dockerfile (Python 3.11)
 - frontend multi-stage Dockerfile (Vite build + Nginx serving)
 - `docker-compose.yml` for service orchestration
+- Prometheus + Grafana services for runtime monitoring
 
 Why:
 - reproducible runtime environment
@@ -63,7 +64,8 @@ Why:
 - reduced local setup issues
 
 Practical impact:
-- standard startup with `docker compose up -d`.
+- standard startup with `docker compose up -d`
+- a single Compose stack now exposes application, metrics, and dashboarding services together.
 
 ## 6. Technology Choices
 
@@ -136,12 +138,43 @@ I also added `check_retrain_needed.py` to:
 - compare them to configurable thresholds
 - expose `retrain_needed=true/false` for conditional workflow triggering
 
-## 10. Conclusion
+## 10. Runtime Monitoring with Prometheus and Grafana
+
+I added a lightweight monitoring layer for the inference API:
+- Prometheus scrapes the backend `/metrics` endpoint
+- Grafana connects to Prometheus as its default datasource
+- the backend records prediction counters, label distribution, input-size distribution, and response-time histograms
+
+Why:
+- operational visibility is required once the model is exposed through an API
+- inference monitoring should cover both business behavior (which labels are being predicted) and technical behavior (how fast the API answers)
+- Grafana provides a simple way to demonstrate production-style observability in a portfolio project
+
+Practical impact:
+- prediction traffic can be inspected in real time without changing the application flow
+- the dashboard makes it easier to detect traffic spikes, class imbalance, or degraded latency
+
+### Dashboard design (see GrafanaDashBoard.png)
+
+The monitoring dashboard was designed with a small number of focused panels:
+- three gauges, one for each predicted sentiment label: `negative`, `neutral`, and `positive`
+- one response-time graph to track inference latency over time
+
+The three gauges give an immediate operational snapshot of label distribution. This is useful because a sentiment API can silently drift toward one class if traffic changes, inputs are poor, or the model behaves unexpectedly in production.
+
+The response-time graph tracks how long the backend takes to answer prediction requests. This is important for monitoring user experience and for spotting performance regressions after model, infrastructure, or traffic changes.
+
+In practice, this dashboard supports two complementary views:
+- model-behavior monitoring through prediction-label counts
+- service-health monitoring through latency trends
+
+## 11. Conclusion
 
 The implementation choices prioritize modularity, reproducibility, automation, and practical compute constraints.
 
 The project meets the core requirements with a realistic MLOps strategy:
 - fast and reliable CI
 - nightly monitoring with threshold-based decisions
+- live API monitoring with Prometheus and Grafana
 - mock retraining in automation
 - full retraining delegated to GPU-enabled environments (such as Colab) with versioning on Hugging Face Hub.

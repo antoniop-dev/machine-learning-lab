@@ -92,7 +92,7 @@ Build images:
 docker compose build
 ```
 
-Start the full stack (backend + frontend):
+Start the full stack (backend + frontend + monitoring):
 
 ```bash
 docker compose up -d
@@ -101,6 +101,9 @@ docker compose up -d
 Services:
 - frontend: `http://localhost:8080`
 - backend API: `http://localhost:8000/api/v1`
+- startup traffic seeder: one-shot synthetic load against backend `/predict`
+- Prometheus: `http://localhost:9090`
+- Grafana: `http://localhost:3000` (`admin` / `admin`)
 
 Stop containers:
 
@@ -111,6 +114,7 @@ docker compose down
 Notes:
 - frontend runs on Nginx and proxies `/api/*` to the `backend` service.
 - the backend container starts with `uvicorn machineinnovatorsinc_solution.api.app:create_app --factory --host 0.0.0.0 --port 8000`.
+- the `traffic-seeder` service waits for backend health and then sends 250 synthetic prediction requests at startup.
 - first startup may take longer while model assets are downloaded.
 
 ## Run the backend API
@@ -150,6 +154,15 @@ Example response:
 }
 ```
 
+Metrics endpoint:
+- `GET /metrics`
+
+Example:
+
+```bash
+curl http://localhost:8000/metrics
+```
+
 ## Run the frontend
 
 In a second terminal:
@@ -184,6 +197,24 @@ Run smoke test against a running backend:
 ```bash
 python3 scripts/smoke_test.py
 ```
+
+## Monitoring with Prometheus and Grafana
+
+The Docker Compose stack includes:
+- `traffic-seeder`, which sends one-shot synthetic `/predict` traffic at startup for dashboard seeding
+- `prometheus`, which scrapes backend metrics from `http://backend:8000/metrics`
+- `grafana`, preconfigured with Prometheus as the default datasource
+
+The startup traffic generator can also be run manually:
+
+```bash
+python3 scripts/seed_prediction_traffic.py --base-url http://localhost:8000/api/v1 --count 250
+```
+
+Useful API metrics:
+- `prediction_requests_total{status, predicted_label}`: number of served predictions, split by result label
+- `prediction_request_duration_seconds{status}`: prediction latency histogram
+- `prediction_input_chars`: input text-length histogram
 
 ## GitHub Actions Workflows
 

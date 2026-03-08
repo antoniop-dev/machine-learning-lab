@@ -6,6 +6,21 @@ services:
     ports:
       - "8000:8000"
 
+  traffic-seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    command:
+      - python
+      - scripts/seed_prediction_traffic.py
+      - --base-url
+      - http://backend:8000/api/v1
+      - --count
+      - "250"
+    restart: "no"
+
   frontend:
     build:
       context: ./frontend
@@ -14,3 +29,30 @@ services:
       - backend
     ports:
       - "8080:80"
+
+  prometheus:
+    image: prom/prometheus
+    depends_on:
+      - backend
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  grafana:
+    image: grafana/grafana-oss
+    depends_on:
+      - prometheus
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+
+volumes:
+  grafana-data:
