@@ -2,8 +2,8 @@ name: (MachineInnovatorsInc_Solution) Nightly Evaluation
 
 on:
   # Nightly schedule (UTC)
-  schedule:
-    - cron: "15 2 * * *"
+  #schedule:
+  #  - cron: "15 2 * * *"
   # Allow manual runs from the Actions tab.
   workflow_dispatch:
 
