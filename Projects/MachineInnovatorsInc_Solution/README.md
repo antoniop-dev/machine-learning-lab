@@ -1,5 +1,7 @@
 # MachineInnovatorsInc Solution
 
+**Repository Link:** [https://github.com/antoniop-dev/machine-innovators-sentiment-analysis](https://github.com/antoniop-dev/machine-innovators-sentiment-analysis)
+
 End-to-end sentiment analysis application for online reputation monitoring.
 
 The project includes:
@@ -25,6 +27,7 @@ The project includes:
 MachineInnovatorsInc_Solution/
 ├── Dockerfile                    # backend container image
 ├── docker-compose.yml            # full stack orchestration (BE, FE, Monitoring)
+├── .github/workflows             # automated pipelines for testing and retraining
 ├── .dockerignore                 # docker build exclusion rules
 ├── configs/                      # JSON configs for data, model, train, eval, and api
 ├── scripts/                      # CLI entrypoints for pipelines and services
