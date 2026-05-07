@@ -24,6 +24,8 @@ The focus is practical: turn theory into working code, compare approaches, and b
 Project docs:
 - `Projects/MachineInnovatorsInc_Solution/README.md`
 
+Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-dev/machine-innovators-sentiment-analysis)
+
 ## Topics Covered
 
 - Core ML workflow: preprocessing, scaling, feature engineering, train/test splits, and evaluation.
