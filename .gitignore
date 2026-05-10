@@ -24,6 +24,7 @@ ENV/
 # datasets/
 # *.csv
 # *.tsv
+/Exercises/DeepLearning/CNNs/data
 
 # Model artifacts
 *.h5
