@@ -25,6 +25,7 @@ ENV/
 # *.csv
 # *.tsv
 /Exercises/DeepLearning/CNNs/data
+/Exercises/DeepLearning/FoodOrNoFood/food_or_not
 
 # Model artifacts
 *.h5
