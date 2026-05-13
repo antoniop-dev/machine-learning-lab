@@ -20,15 +20,12 @@ ENV/
 # ML / Data Science
 # =========================
 # Data files
-# data/
-# datasets/
-# *.csv
-# *.tsv
 Exercises/ML_Models&Algorithms/Nearest Neighbors/olivetti_faces/
 Exercises/DeepLearning/CNNs/data
 Exercises/DeepLearning/FoodOrNoFood/food_or_not
-Exercises/DeepLearning/RNNs/my_datasets
+Exercises/DeepLearning/RNNs/data
 Exercises/ML_foundamentals/data
+Exercises/DeepLearning/MachineTranslation/data
 
 # Model artifacts
 *.h5
