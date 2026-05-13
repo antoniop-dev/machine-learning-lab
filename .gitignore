@@ -24,8 +24,11 @@ ENV/
 # datasets/
 # *.csv
 # *.tsv
-/Exercises/DeepLearning/CNNs/data
-/Exercises/DeepLearning/FoodOrNoFood/food_or_not
+Exercises/ML_Models&Algorithms/Nearest Neighbors/olivetti_faces/
+Exercises/DeepLearning/CNNs/data
+Exercises/DeepLearning/FoodOrNoFood/food_or_not
+Exercises/DeepLearning/RNNs/my_datasets
+Exercises/ML_foundamentals/data
 
 # Model artifacts
 *.h5
@@ -88,6 +91,3 @@ temp/
 # =========================
 Projects/InsuraPro_Solution/insurapro
 Projects/InsuraPro_Solution/docs/
-
-# Large dataset used in Nearest Neighbors exercise
-Exercises/ML_Models&Algorithms/Nearest Neighbors/olivetti_faces/
