@@ -32,7 +32,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Supervised learning: linear regression, logistic regression, SVMs, Naive Bayes, k-nearest neighbors, and SGD-based models.
 - Unsupervised learning: clustering with K-Means.
 - Model evaluation: regression and classification metrics, confusion matrices, ROC curves, and learning curves.
-- Domain exercises: tabular prediction, text classification (spam detection), digit recognition, and basic face recognition.
+- Domain exercises: tabular prediction, text classification (spam detection, sentiment analysis), digit recognition, and basic face recognition.
 - Deep learning: neural networks with callbacks, convolutional networks (AlexNet, transfer learning), recurrent networks (RNNs, LSTMs, GRUs, bidirectional), sequence-to-sequence machine translation, image captioning with mixed CNN+RNN architectures, food classification, and optical character recognition (OCR).
 - MLOps foundations: serving a training endpoint with FastAPI and validating it with pytest.
 
@@ -74,7 +74,6 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  │  ├─ RNNs/
 │  │  ├─ FoodOrNoFood/
 │  │  ├─ MachineTranslation/
-│  │  ├─ MixedArchitectures/
 │  │  └─ OCR/
 │  └─ MLOps&ML_in_prod/
 │     └─ Model_Testing/
