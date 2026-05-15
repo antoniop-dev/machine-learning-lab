@@ -20,12 +20,17 @@ ENV/
 # ML / Data Science
 # =========================
 # Data files
+Exercises/ML_foundamentals/data
 Exercises/ML_Models&Algorithms/Nearest Neighbors/olivetti_faces/
 Exercises/DeepLearning/CNNs/data
 Exercises/DeepLearning/FoodOrNoFood/food_or_not
 Exercises/DeepLearning/RNNs/data
-Exercises/ML_foundamentals/data
 Exercises/DeepLearning/MachineTranslation/data
+Exercises/DeepLearning/MixedArchitectures/data
+Exercises/DeepLearning/OCR/data/emnist
+
+# Could not complete the assignment due to hardware limitation
+Exercises/DeepLearning/MixedArchitectures 
 
 # Model artifacts
 *.h5
