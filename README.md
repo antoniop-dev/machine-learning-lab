@@ -68,7 +68,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  │  ├─ Nearest Neighbors/
 │  │  ├─ Mini Batch GD and Online Learning/
 │  │  └─ Neural Networks/
-│  ├─ DeepLearning/
+│  ├─ DeepLearning and Neural Networks/
 │  │  ├─ NNs/
 │  │  ├─ CNNs/
 │  │  ├─ RNNs/
