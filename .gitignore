@@ -22,15 +22,15 @@ ENV/
 # Data files
 Exercises/ML_foundamentals/data
 Exercises/ML_Models&Algorithms/Nearest Neighbors/olivetti_faces/
-Exercises/DeepLearning/CNNs/data
-Exercises/DeepLearning/FoodOrNoFood/food_or_not
-Exercises/DeepLearning/RNNs/data
-Exercises/DeepLearning/MachineTranslation/data
-Exercises/DeepLearning/MixedArchitectures/data
-Exercises/DeepLearning/OCR/data/emnist
+Exercises/DeepLearning and Neural Networks/CNNs/data
+Exercises/DeepLearning and Neural Networks/FoodOrNoFood/food_or_not
+Exercises/DeepLearning and Neural Networks/RNNs/data
+Exercises/DeepLearning and Neural Networks/MachineTranslation/data
+Exercises/DeepLearning and Neural Networks/MixedArchitectures/data
+Exercises/DeepLearning and Neural Networks/OCR/data/emnist
 
 # Could not complete the assignment due to hardware limitation
-Exercises/DeepLearning/MixedArchitectures 
+Exercises/DeepLearning and Neural Networks/MixedArchitectures 
 
 # Model artifacts
 *.h5
