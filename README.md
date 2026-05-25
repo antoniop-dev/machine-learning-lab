@@ -61,6 +61,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  ├─ Applied DeepLearning with PyTorch/
 │  │  ├─ PyTorch101/
 │  │  ├─ WineQuality/
+│  │  ├─ CNNs/
 │  ├─ ML_foundamentals/
 │  │  ├─ Linear Regression/
 │  │  ├─ Logistic Regression/
