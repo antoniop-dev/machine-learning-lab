@@ -30,6 +30,7 @@ Exercises/DeepLearning and Neural Networks/MixedArchitectures/data
 Exercises/DeepLearning and Neural Networks/OCR/data/emnist
 Exercises/Applied DeepLearning with PyTorch/Validation/data
 Exercises/Applied DeepLearning with PyTorch/CNNs/data
+Exercises/Applied DeepLearning with PyTorch/Data Scarcity/dataset
 
 # Could not complete the assignment due to hardware limitation
 Exercises/DeepLearning and Neural Networks/MixedArchitectures 
@@ -44,10 +45,11 @@ Exercises/DeepLearning and Neural Networks/MixedArchitectures
 *.joblib
 *.pkl
 *.pickle
+Exercises/Applied DeepLearning with PyTorch/Data Scarcity/models
 
 # Logs
 logs/
-*.log
+*.logs
 
 # =========================
 # macOS
