@@ -99,3 +99,10 @@ temp/
 # =========================
 Projects/InsuraPro_Solution/insurapro
 Projects/InsuraPro_Solution/docs/
+
+# =========================
+# Exceptions
+# =========================
+!Projects/GourmetAI_Solution/checkpoints/efficientnet_b0/best.pt
+!Projects/GourmetAI_Solution/checkpoints/mobilenet_v3_small/best.pt
+!Projects/GourmetAI_Solution/checkpoints/resnet50/best.pt
