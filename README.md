@@ -58,6 +58,9 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 .
 ├─ README.md
 ├─ Exercises/
+├─ Computer Vision/
+│  │  ├─ Filters/
+│  │  ├─ GradCAM/
 │  ├─ Applied DeepLearning with PyTorch/
 │  │  ├─ PyTorch101/
 │  │  ├─ WineQuality/
