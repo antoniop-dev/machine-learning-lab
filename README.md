@@ -58,30 +58,32 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 .
 ├─ README.md
 ├─ Exercises/
-├─ Computer Vision/
-│  │  ├─ Filters/
-│  │  ├─ GradCAM/
 │  ├─ Applied DeepLearning with PyTorch/
+│  │  ├─ CNNs/
+│  │  ├─ DataScarcity/
 │  │  ├─ PyTorch101/
-│  │  ├─ WineQuality/
-│  │  ├─ CNNs/
-│  ├─ ML_foundamentals/
-│  │  ├─ Linear Regression/
-│  │  ├─ Logistic Regression/
-│  │  └─ Clustering/
-│  ├─ ML_Models&Algorithms/
-│  │  ├─ SVM/
-│  │  ├─ NaiveBayes/
-│  │  ├─ Nearest Neighbors/
-│  │  ├─ Mini Batch GD and Online Learning/
-│  │  └─ Neural Networks/
+│  │  └─ Validation/
+|  ├─ Computer Vision/
+│  │  ├─ Filters/
+│  │  └─ GradCAM/
 │  ├─ DeepLearning and Neural Networks/
-│  │  ├─ NNs/
 │  │  ├─ CNNs/
-│  │  ├─ RNNs/
 │  │  ├─ FoodOrNoFood/
 │  │  ├─ MachineTranslation/
-│  │  └─ OCR/
+│  │  ├─ NNs/
+│  │  ├─ OCR/
+│  │  ├─ RNNs/
+│  │  └─ Transformers/
+│  ├─ ML_foundamentals/
+│  │  ├─ Clustering/
+│  │  ├─ Linear Regression/
+│  │  └─ Logistic Regression/
+│  ├─ ML_Models&Algorithms/
+│  │  ├─ Mini Batch GD and Online Learning/
+│  │  ├─ NaiveBayes/
+│  │  ├─ Nearest Neighbors/
+│  │  ├─ Neural Networks/
+│  │  └─ SVM/
 │  └─ MLOps&ML_in_prod/
 │     └─ Model_Testing/
 └─ Projects/
