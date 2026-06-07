@@ -86,8 +86,11 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │     └─ Model_Testing/
 └─ Projects/
    ├─ ContactEase_Solution/
+   ├─ GourmetAI_Solution/
+   ├─ GreenTech_Solution/
    ├─ InsuraPro_Solution/
    ├─ MachineInnovatorsInc_Solution/
    ├─ RealEstateAI_Solution/
-   └─ TropicTasteInc_Solution/
+   ├─ TropicTasteInc_Solution/
+   └─ VisionTech_Solution/
 ```
