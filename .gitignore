@@ -34,7 +34,7 @@ Exercises/Applied DeepLearning with PyTorch/Data Scarcity/dataset
 Projects/GourmetAI_Solution/dataset
 Exercises/Computer Vision/Filters/image.jpg
 Exercises/Computer Vision/GradCAM/data
-Projects/GreeTech_Solution/dataset
+Projects/GreenTech_Solution/dataset
 
 # Could not complete the assignment due to hardware limitation
 Exercises/DeepLearning and Neural Networks/MixedArchitectures 
@@ -101,7 +101,7 @@ temp/
 # =========================
 Projects/InsuraPro_Solution/insurapro
 Projects/InsuraPro_Solution/docs
-Projects/GreeTech_Solution/checkpoints
+Projects/GreenTech_Solution/checkpoints
 
 # =========================
 # Exceptions
