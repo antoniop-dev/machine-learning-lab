@@ -106,6 +106,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  └─ Reinforcement Learning/
 │     ├─ Policy Iteration/
 │     ├─ Q-Learning/
+│     ├─ SARSA/
 │     └─ Value Iteration/
 └─ Projects/
    ├─ ContactEase_Solution/
