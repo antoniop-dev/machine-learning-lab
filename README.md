@@ -104,6 +104,8 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  ├─ MLOps&ML_in_prod/
 │  │  └─ Model_Testing/
 │  └─ Reinforcement Learning/
+│     ├─ Deep Q-Network/
+│     ├─ Dyna-Q/
 │     ├─ Policy Iteration/
 │     ├─ Q-Learning/
 │     ├─ Reinforce (Monte Carlo Policy Gradient)/
