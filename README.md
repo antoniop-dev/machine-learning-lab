@@ -91,6 +91,9 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  │  ├─ OCR/
 │  │  ├─ RNNs/
 │  │  └─ Transformers/
+│  ├─ Generative AI/
+│  │  ├─ Autoencoders/
+│  │  └─ Variational Autoencoders (VAE)/
 │  ├─ ML_foundamentals/
 │  │  ├─ Clustering/
 │  │  ├─ Linear Regression/
