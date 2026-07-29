@@ -113,6 +113,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │     └─ Value Iteration/
 └─ Projects/
    ├─ ContactEase_Solution/
+   ├─ DeepGuard_Solution/
    ├─ GourmetAI_Solution/
    ├─ GreenTech_Solution/
    ├─ InsuraPro_Solution/

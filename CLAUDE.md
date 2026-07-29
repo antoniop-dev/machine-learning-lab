@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Coding Guidelines
+
+When generating new code or modifying existing code you should follow this guidelines:
+- Single Responsibility Principle: each function and/or method should have one and only one job, it should have a clear name to give an idea of what it is doing.
+- Documentation: each function and/or method should be documented with doc strings (and comments when needed), always remeber to update the docs when you update code.
+- Type Hinting: type hinting for the functions and/or methods parameters is mandatory. Not every variable in your code must be type hinted, but the parameters are a must.
+- Reduce, Reuse, Recycle: before starting an implementation you should check if there are any portion of code you can reuse for your task, avoiding boilerplates and code duplication.
+
 ## Repository Overview
 
 A learning lab for AI/ML exercises and project solutions. Content is organized into:
