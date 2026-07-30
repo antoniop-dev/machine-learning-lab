@@ -14,6 +14,7 @@ The focus is practical: turn theory into working code, compare approaches, and b
 | Project | Description |
 |---|---|
 | `MachineInnovatorsInc_Solution` | End-to-end sentiment analysis pipeline: fine-tuned transformer, FastAPI + React, Docker, CI/CD, monitoring |
+| `DeepGuard_Solution` | RL-based automated cyber defense on gym-idsgame (SARSA and DDQN defenders vs. random/maximal attacker bots) |
 | `RealEstateAI_Solution` | House price prediction with Linear, Ridge, Lasso, and ElasticNet regression (4-notebook workflow) |
 | `GourmetAI_Solution` | Food image classification via transfer learning (ResNet50, MobileNetV3, EfficientNet-B0) |
 | `GreenTech_Solution` | Image classification with ResNet50 and layer-4 fine-tuning on a Roboflow dataset |
@@ -48,8 +49,9 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Domain exercises: tabular prediction, text classification (spam detection, sentiment analysis), digit recognition, and basic face recognition.
 - Deep learning: neural networks with callbacks, convolutional networks (AlexNet, transfer learning), recurrent networks (RNNs, LSTMs, GRUs, bidirectional), sequence-to-sequence machine translation, image captioning with mixed CNN+RNN architectures, food classification, and optical character recognition (OCR).
 - Applied deep learning with PyTorch: regression and classification, CNNs on MNIST, data augmentation for data-scarce settings, and K-fold cross-validation.
+- Generative AI: autoencoders, generative adversarial networks (GANs), and variational autoencoders (VAE, conditional VAE) on MNIST/CIFAR-10.
 - Computer vision: classical image filtering and Grad-CAM gradient visualisation.
-- Reinforcement learning: value iteration and policy iteration on tabular/grid-world environments.
+- Reinforcement learning: value iteration and policy iteration on tabular/grid-world environments, and RL-based cyber defense (SARSA, DDQN) on a Markov-game intrusion environment.
 - MLOps foundations: serving a training endpoint with FastAPI and validating it with pytest.
 
 ## Technologies & Tools
@@ -93,6 +95,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  │  └─ Transformers/
 │  ├─ Generative AI/
 │  │  ├─ Autoencoders/
+│  │  ├─ Generative Adversarial Networks (GANs)/
 │  │  └─ Variational Autoencoders (VAE)/
 │  ├─ ML_foundamentals/
 │  │  ├─ Clustering/
