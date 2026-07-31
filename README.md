@@ -42,7 +42,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 
 ## Topics Covered
 
-- Core ML workflow: preprocessing, scaling, feature engineering, train/test splits, and evaluation.
+- Core ML workflow: preprocessing, scaling, feature engineering, train/test splits and evaluation.
 - Supervised learning: linear regression, logistic regression, SVMs, Naive Bayes, k-nearest neighbors, and SGD-based models.
 - Unsupervised learning: clustering with K-Means.
 - Model evaluation: regression and classification metrics, confusion matrices, ROC curves, and learning curves.
@@ -62,7 +62,6 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Machine learning: scikit-learn, SciPy.
 - Deep learning: TensorFlow, Keras, PyTorch.
 - NLP/LLM tooling: Hugging Face Transformers, Datasets, Accelerate.
-- Data sources and helpers: ucimlrepo.
 - App and APIs: FastAPI, Pydantic, Uvicorn.
 - Frontend and build: React, Vite.
 - Containerization: Docker, Docker Compose, Nginx.
@@ -95,6 +94,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  │  └─ Transformers/
 │  ├─ Generative AI/
 │  │  ├─ Autoencoders/
+│  │  ├─ Diffusion Models/
 │  │  ├─ Generative Adversarial Networks (GANs)/
 │  │  └─ Variational Autoencoders (VAE)/
 │  ├─ ML_foundamentals/
