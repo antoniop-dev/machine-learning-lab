@@ -97,6 +97,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  │  ├─ Diffusion Models/
 │  │  ├─ Gated Recurrent Unit (GRU)/
 │  │  ├─ Generative Adversarial Networks (GANs)/
+│  │  ├─ Transformers/
 │  │  └─ Variational Autoencoders (VAE)/
 │  ├─ ML_foundamentals/
 │  │  ├─ Clustering/
