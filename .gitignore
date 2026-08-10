@@ -108,6 +108,12 @@ temp/
 Projects/InsuraPro_Solution/insurapro
 Projects/InsuraPro_Solution/docs
 Projects/GreenTech_Solution/checkpoints
+Projects/CyberEye_Solution/data
+Projects/CyberEye_Solution/splits
+Projects/CyberEye_Solution/manifests
+Projects/CyberEye_Solution/synthetic
+Projects/CyberEye_Solution/checkpoints
+Projects/CyberEye_Solution/reports
 
 # =========================
 # Exceptions

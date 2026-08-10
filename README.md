@@ -14,6 +14,7 @@ The focus is practical: turn theory into working code, compare approaches, and b
 | Project | Description |
 |---|---|
 | `MachineInnovatorsInc_Solution` | End-to-end sentiment analysis pipeline: fine-tuned transformer, FastAPI + React, Docker, CI/CD, monitoring |
+| `CyberEye_Solution` | Synthetic data augmentation pipeline (BLIP captioning → T5 paraphrasing → SD-Turbo img2img) with CLIP quality gates, measured against a baseline classifier |
 | `DeepGuard_Solution` | RL-based automated cyber defense on gym-idsgame (SARSA and DDQN defenders vs. random/maximal attacker bots) |
 | `RealEstateAI_Solution` | House price prediction with Linear, Ridge, Lasso, and ElasticNet regression (4-notebook workflow) |
 | `GourmetAI_Solution` | Food image classification via transfer learning (ResNet50, MobileNetV3, EfficientNet-B0) |
@@ -50,6 +51,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Deep learning: neural networks with callbacks, convolutional networks (AlexNet, transfer learning), recurrent networks (RNNs, LSTMs, GRUs, bidirectional), sequence-to-sequence machine translation, image captioning with mixed CNN+RNN architectures, food classification, and optical character recognition (OCR).
 - Applied deep learning with PyTorch: regression and classification, CNNs on MNIST, data augmentation for data-scarce settings, and K-fold cross-validation.
 - Generative AI: autoencoders, generative adversarial networks (GANs), and variational autoencoders (VAE, conditional VAE) on MNIST/CIFAR-10.
+- Synthetic data generation: multi-model pipeline chaining image captioning (BLIP), caption paraphrasing (T5), and diffusion img2img (SD-Turbo), with CLIPScore quality gates and a controlled baseline-vs-augmented classifier experiment to measure whether the generated data actually helps.
 - Computer vision: classical image filtering and Grad-CAM gradient visualisation.
 - Reinforcement learning: value iteration and policy iteration on tabular/grid-world environments, and RL-based cyber defense (SARSA, DDQN) on a Markov-game intrusion environment.
 - MLOps foundations: serving a training endpoint with FastAPI and validating it with pytest.
@@ -62,6 +64,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Machine learning: scikit-learn, SciPy.
 - Deep learning: TensorFlow, Keras, PyTorch.
 - NLP/LLM tooling: Hugging Face Transformers, Datasets, Accelerate.
+- Generative model tooling: Hugging Face Diffusers, NLTK and rouge-score for text-similarity metrics.
 - App and APIs: FastAPI, Pydantic, Uvicorn.
 - Frontend and build: React, Vite.
 - Containerization: Docker, Docker Compose, Nginx.
@@ -122,6 +125,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │     └─ Value Iteration/
 └─ Projects/
    ├─ ContactEase_Solution/
+   ├─ CyberEye_Solution/
    ├─ DeepGuard_Solution/
    ├─ GourmetAI_Solution/
    ├─ GreenTech_Solution/
