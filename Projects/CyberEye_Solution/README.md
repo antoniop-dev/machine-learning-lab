@@ -144,6 +144,18 @@ The knobs worth knowing, all defined as constants at the top of their section:
 
 ## Results
 
-**Not yet available.** The pipeline is implemented end to end and each stage has been run or verified, but the full uncapped run that would produce meaningful numbers has not been completed. `06` builds the comparison table and chart from whatever checkpoints are present; the written discussion — did augmentation help, which breeds benefited, where does it fall short — is deliberately deferred until the full-scale artifacts exist.
+All three classifiers were scored on the same untouched 3,669-image Oxford-IIIT Pet test split.
 
-What `06` will report, per run: accuracy, plus precision / recall / F1 as both macro (every breed weighted equally — the honest read on whether augmentation helped the *weak* classes) and weighted averages, plus per-breed metrics in `reports/per_class_metrics.csv` for the class-level analysis.
+| Run | Train images | Accuracy | Macro-F1 | vs baseline (McNemar) |
+|---|---|---|---|---|
+| `baseline` | 2,944 real | 0.8689 | 0.8681 | — |
+| `augmented` | +1,870 synthetic | 0.8697 | 0.8691 | p = 0.887 |
+| `augmented_filtered` | +1,452 filtered synthetic | **0.8749** | **0.8739** | p = 0.123 |
+
+**Synthetic augmentation helps — but only after quality filtering, and only modestly on this task.** Raw synthetic data added a net 3 correct predictions out of 3,669 (no real effect). Filtering out the 22.4% of generations that drifted from their class's CLIP baseline turned that into a consistent +0.6pp gain across every headline metric, concentrated on the weakest breeds (r = −0.38 with baseline strength). The gain isn't individually significant (p = 0.123) but is structured rather than noisy.
+
+The effect is small because breed classification hinges on exactly the fine detail (coat, muzzle, ear shape) that diffusion is worst at preserving — this is close to the hardest case for the pipeline. Coarser targets (e.g. species-level) should see a substantially larger benefit, making this result a lower bound rather than a ceiling.
+
+Full artifacts: `reports/test_predictions_*.csv`, `reports/per_class_metrics.csv`, `reports/model_comparison.csv`, `reports/model_comparison.png`.
+
+**Full discussion and evidence:** see Section 6.7 at the end of `06_Evaluation.ipynb`.
