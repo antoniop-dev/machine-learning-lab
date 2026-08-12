@@ -50,7 +50,10 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Domain exercises: tabular prediction, text classification (spam detection, sentiment analysis), digit recognition, and basic face recognition.
 - Deep learning: neural networks with callbacks, convolutional networks (AlexNet, transfer learning), recurrent networks (RNNs, LSTMs, GRUs, bidirectional), sequence-to-sequence machine translation, image captioning with mixed CNN+RNN architectures, food classification, and optical character recognition (OCR).
 - Applied deep learning with PyTorch: regression and classification, CNNs on MNIST, data augmentation for data-scarce settings, and K-fold cross-validation.
-- Generative AI: autoencoders, generative adversarial networks (GANs), and variational autoencoders (VAE, conditional VAE) on MNIST/CIFAR-10.
+- Generative AI: autoencoders, generative adversarial networks (GANs), variational autoencoders (VAE, conditional VAE) on MNIST/CIFAR-10, and diffusion models (DDPM-style U-Net denoising).
+- Sequence models and transformers: GRU-based character-level text generation, transformer encoder/decoder blocks with attention visualisation, and encoder-decoder machine translation.
+- LLM applications: prompt engineering with local on-device inference (MLX) and abstractive summarization (T5/GPT-2/encoder-decoder models).
+- Explainable AI (XAI): whitebox interpretable models (logistic regression, decision trees), post-hoc explainability with LIME (tabular data, kNN and MLP models) and SHAP (linear/tree models and XGBoost regression/classification), and computer-vision attribution methods (saliency maps, integrated gradients, occlusion, Grad-CAM) on CIFAR-10.
 - Synthetic data generation: multi-model pipeline chaining image captioning (BLIP), caption paraphrasing (T5), and diffusion img2img (SD-Turbo), with CLIPScore quality gates and a controlled baseline-vs-augmented classifier experiment to measure whether the generated data actually helps.
 - Computer vision: classical image filtering and Grad-CAM gradient visualisation.
 - Reinforcement learning: value iteration and policy iteration on tabular/grid-world environments, and RL-based cyber defense (SARSA, DDQN) on a Markov-game intrusion environment.
@@ -61,10 +64,11 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Languages and environment: Python, C++17, Jupyter Notebooks.
 - Core data stack: NumPy, Pandas.
 - Visualization: Matplotlib, Seaborn.
-- Machine learning: scikit-learn, SciPy.
-- Deep learning: TensorFlow, Keras, PyTorch.
-- NLP/LLM tooling: Hugging Face Transformers, Datasets, Accelerate.
+- Machine learning: scikit-learn, SciPy, XGBoost.
+- Deep learning: TensorFlow, Keras, PyTorch (with TensorBoard logging).
+- NLP/LLM tooling: Hugging Face Transformers, Datasets, Accelerate, MLX (local LLM inference), BertViz (attention visualization).
 - Generative model tooling: Hugging Face Diffusers, NLTK and rouge-score for text-similarity metrics.
+- Explainability: SHAP, LIME, Captum (saliency maps, integrated gradients, occlusion, Grad-CAM).
 - App and APIs: FastAPI, Pydantic, Uvicorn.
 - Frontend and build: React, Vite.
 - Containerization: Docker, Docker Compose, Nginx.
@@ -95,6 +99,11 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │  │  ├─ OCR/
 │  │  ├─ RNNs/
 │  │  └─ Transformers/
+│  ├─ eXplainable AI (XAI)/
+│  │  ├─ Computer Vision/
+│  │  ├─ LIME/
+│  │  ├─ SHAP/
+│  │  └─ WhiteBox/
 │  ├─ Generative AI/
 │  │  ├─ Autoencoders/
 │  │  ├─ Diffusion Models/
