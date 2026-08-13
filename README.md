@@ -16,6 +16,7 @@ The focus is practical: turn theory into working code, compare approaches, and b
 | `MachineInnovatorsInc_Solution` | End-to-end sentiment analysis pipeline: fine-tuned transformer, FastAPI + React, Docker, CI/CD, monitoring |
 | `CyberEye_Solution` | Synthetic data augmentation pipeline (BLIP captioning → T5 paraphrasing → SD-Turbo img2img) with CLIP quality gates, measured against a baseline classifier |
 | `DeepGuard_Solution` | RL-based automated cyber defense on gym-idsgame (SARSA and DDQN defenders vs. random/maximal attacker bots) |
+| `BancaVirtuosa_Solution` | Audit-ready explainability for a transfer-learned DenseNet-121 classifier: five saliency techniques (Grad-CAM, Integrated Gradients, Occlusion, LIME, SHAP) compared on a fixed, seeded case set of correct and misclassified digits |
 | `RealEstateAI_Solution` | House price prediction with Linear, Ridge, Lasso, and ElasticNet regression (4-notebook workflow) |
 | `GourmetAI_Solution` | Food image classification via transfer learning (ResNet50, MobileNetV3, EfficientNet-B0) |
 | `GreenTech_Solution` | Image classification with ResNet50 and layer-4 fine-tuning on a Roboflow dataset |
@@ -53,7 +54,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 - Generative AI: autoencoders, generative adversarial networks (GANs), variational autoencoders (VAE, conditional VAE) on MNIST/CIFAR-10, and diffusion models (DDPM-style U-Net denoising).
 - Sequence models and transformers: GRU-based character-level text generation, transformer encoder/decoder blocks with attention visualisation, and encoder-decoder machine translation.
 - LLM applications: prompt engineering with local on-device inference (MLX) and abstractive summarization (T5/GPT-2/encoder-decoder models).
-- Explainable AI (XAI): whitebox interpretable models (logistic regression, decision trees), post-hoc explainability with LIME (tabular data, kNN and MLP models) and SHAP (linear/tree models and XGBoost regression/classification), and computer-vision attribution methods (saliency maps, integrated gradients, occlusion, Grad-CAM) on CIFAR-10.
+- Explainable AI (XAI): whitebox interpretable models (logistic regression, decision trees), post-hoc explainability with LIME (tabular data, kNN and MLP models) and SHAP (linear/tree models and XGBoost regression/classification), and computer-vision attribution methods (saliency maps, integrated gradients, occlusion, Grad-CAM) on CIFAR-10; plus a compliance-oriented case study that runs five attribution techniques (Grad-CAM, integrated gradients, occlusion, LIME, SHAP) over one fixed case set to explain a transfer-learned classifier's errors, and weighs post-hoc explanation against explainable-by-design alternatives.
 - Synthetic data generation: multi-model pipeline chaining image captioning (BLIP), caption paraphrasing (T5), and diffusion img2img (SD-Turbo), with CLIPScore quality gates and a controlled baseline-vs-augmented classifier experiment to measure whether the generated data actually helps.
 - Computer vision: classical image filtering and Grad-CAM gradient visualisation.
 - Reinforcement learning: value iteration and policy iteration on tabular/grid-world environments, and RL-based cyber defense (SARSA, DDQN) on a Markov-game intrusion environment.
@@ -133,6 +134,7 @@ Repository: [MachineInnovators-SentimentAnalysis](https://github.com/antoniop-de
 │     ├─ SARSA/
 │     └─ Value Iteration/
 └─ Projects/
+   ├─ BancaVirtuosa_Solution/
    ├─ ContactEase_Solution/
    ├─ CyberEye_Solution/
    ├─ DeepGuard_Solution/
