@@ -118,6 +118,8 @@ Projects/CyberEye_Solution/manifests
 Projects/CyberEye_Solution/synthetic
 Projects/CyberEye_Solution/checkpoints
 Projects/CyberEye_Solution/reports
+Projects/BancaVirtuosa_Solution/data
+Projects/BancaVirtuosa_Solution/outputs
 
 # =========================
 # Exceptions
