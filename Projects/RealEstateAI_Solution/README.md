@@ -13,7 +13,7 @@ The project focuses on building and comparing linear models on a real-estate dat
 
 ## Dataset
 
-- Source file included in this repo: `data/housing.csv`.
+- Source: [`housing.csv`](https://proai-datasets.s3.eu-west-3.amazonaws.com/housing.csv) (ProfAI course dataset bucket), loaded directly via `pd.read_csv()` inside the notebooks. It streams from that URL on every run — there's no local copy to set up, despite what an earlier version of this README implied.
 - Shape: `545` rows, `13` columns.
 - Target: `price`.
 - Main features: `area`, `bedrooms`, `bathrooms`, `stories`, `parking`, binary amenities, and `furnishingstatus`.

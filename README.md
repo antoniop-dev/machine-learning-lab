@@ -6,24 +6,35 @@ The focus is practical: turn theory into working code, compare approaches, and b
 
 ## What You Will Find
 
-- `Exercises/`: focused practice on ML fundamentals, core algorithms, and MLOps basics.
+- `Exercises/`: focused practice on ML fundamentals, core algorithms, and MLOps basics. New to ML? Start with [`Exercises/README.md`](Exercises/README.md) for the recommended learning path and how each track links to a project below.
 - `Projects/`: solution folders applying ML workflows to realistic business-style cases.
 
 ## Projects
 
 | Project | Description |
 |---|---|
-| `MachineInnovatorsInc_Solution` | End-to-end sentiment analysis pipeline: fine-tuned transformer, FastAPI + React, Docker, CI/CD, monitoring |
-| `CyberEye_Solution` | Synthetic data augmentation pipeline (BLIP captioning → T5 paraphrasing → SD-Turbo img2img) with CLIP quality gates, measured against a baseline classifier |
-| `DeepGuard_Solution` | RL-based automated cyber defense on gym-idsgame (SARSA and DDQN defenders vs. random/maximal attacker bots) |
-| `BancaVirtuosa_Solution` | Audit-ready explainability for a transfer-learned DenseNet-121 classifier: five saliency techniques (Grad-CAM, Integrated Gradients, Occlusion, LIME, SHAP) compared on a fixed, seeded case set of correct and misclassified digits |
-| `RealEstateAI_Solution` | House price prediction with Linear, Ridge, Lasso, and ElasticNet regression (4-notebook workflow) |
-| `GourmetAI_Solution` | Food image classification via transfer learning (ResNet50, MobileNetV3, EfficientNet-B0) |
-| `GreenTech_Solution` | Image classification with ResNet50 and layer-4 fine-tuning on a Roboflow dataset |
-| `VisionTech_Solution` | Computer vision notebook with a trained CNN (saved weights included) |
-| `TropicTasteInc_Solution` | Single-notebook ML classification project |
-| `InsuraPro_Solution` | C++17 terminal CRM with Doxygen-generated docs |
-| `ContactEase_Solution` | Python console contact-book application |
+| [`MachineInnovatorsInc_Solution`](Projects/MachineInnovatorsInc_Solution/README.md) | End-to-end sentiment analysis pipeline: fine-tuned transformer, FastAPI + React, Docker, CI/CD, monitoring |
+| [`CyberEye_Solution`](Projects/CyberEye_Solution/README.md) | Synthetic data augmentation pipeline (BLIP captioning → T5 paraphrasing → SD-Turbo img2img) with CLIP quality gates, measured against a baseline classifier |
+| [`DeepGuard_Solution`](Projects/DeepGuard_Solution/README.md) | RL-based automated cyber defense on gym-idsgame (SARSA and DDQN defenders vs. random/maximal attacker bots) |
+| [`BancaVirtuosa_Solution`](Projects/BancaVirtuosa_Solution/README.md) | Audit-ready explainability for a transfer-learned DenseNet-121 classifier: five saliency techniques (Grad-CAM, Integrated Gradients, Occlusion, LIME, SHAP) compared on a fixed, seeded case set of correct and misclassified digits |
+| [`RealEstateAI_Solution`](Projects/RealEstateAI_Solution/README.md) | House price prediction with Linear, Ridge, Lasso, and ElasticNet regression (4-notebook workflow) |
+| [`GourmetAI_Solution`](Projects/GourmetAI_Solution/README.md) | Food image classification via transfer learning (ResNet50, MobileNetV3, EfficientNet-B0) |
+| [`GreenTech_Solution`](Projects/GreenTech_Solution/README.md) | Image classification with ResNet50 and layer-4 fine-tuning on a Roboflow dataset |
+| [`VisionTech_Solution`](Projects/VisionTech_Solution/README.md) | Computer vision notebook with a trained CNN (saved weights included) |
+| [`TropicTasteInc_Solution`](Projects/TropicTasteInc_Solution/README.md) | Single-notebook ML classification project |
+| [`InsuraPro_Solution`](Projects/InsuraPro_Solution/README.md) | C++17 terminal CRM with Doxygen-generated docs |
+| [`ContactEase_Solution`](Projects/ContactEase_Solution/README.md) | Python console contact-book application |
+
+## Compute Requirements
+
+Most exercises and a few projects (RealEstateAI, TropicTasteInc, InsuraPro, ContactEase) are small enough to run comfortably on a laptop CPU. The deep-learning-heavy projects (transfer learning, diffusion, transformer fine-tuning) are a different story — training them from scratch on a CPU is realistic only if you're prepared to wait a long time. For those, use a GPU: either your own, or a free option like [Google Colab](https://colab.research.google.com/).
+
+- **GourmetAI_Solution**, **GreenTech_Solution** — PyTorch transfer learning; trained on Colab (see each project's own README for a "Compute" section with Colab setup steps).
+- **BancaVirtuosa_Solution** — the notebook ships a `PROTOTYPE_CONFIG` (small, fast, runs locally) and a `FULL_CONFIG` (the full run, intended for Colab); it also auto-installs missing packages and mounts Drive when it detects it's on Colab.
+- **CyberEye_Solution** — picks CUDA → Apple MPS → CPU automatically, so the same notebooks run on a laptop for local validation at reduced scale, then uncapped on Colab for the full pipeline.
+- **MachineInnovatorsInc_Solution** — the CI/CD pipeline intentionally uses a CPU-friendly mock retrain (see its README); a real fine-tuning run of `scripts/train_model.py` should be done on a GPU machine or Colab, not CI.
+
+If you're new to this: you don't need to buy a GPU to work through this repo. Colab's free tier covers everything here.
 
 ### Highlighted MLOps Project
 

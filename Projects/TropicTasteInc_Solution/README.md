@@ -11,7 +11,7 @@ The pipeline uses a K-Nearest Neighbors (KNN) model with cross-validated hyperpa
 
 ## Dataset
 
-- Local file: `fruits.csv`.
+- Source: [`fruits.csv`](https://proai-datasets.s3.eu-west-3.amazonaws.com/fruits.csv) (ProfAI course dataset bucket), loaded directly via `pd.read_csv()` inside the notebook — it streams from that URL on every run, there's no file to set up locally.
 - Shape: `500` rows, `6` columns.
 - Class distribution: balanced (`100` samples per fruit class).
 - Target column: `Frutto`.

@@ -80,6 +80,8 @@ python3 scripts/train_model.py \
   --eval-batch-size 2
 ```
 
+The tiny epoch/batch-size values above are for a quick CPU-friendly smoke run (the same idea as the CI [Mock Retraining workflow](#mock-retraining-workflow)). For an actual fine-tune, raise `--num-train-epochs` and the batch sizes and run this on a GPU — a local one, or a free [Google Colab](https://colab.research.google.com/) notebook — since training a transformer for real epochs on CPU is impractically slow.
+
 5. Evaluate fine-tuned model
 
 ```bash
